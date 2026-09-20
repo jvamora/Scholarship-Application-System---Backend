@@ -1,0 +1,39 @@
+# Render Blueprint for the Scholarship API.
+# Deploy on: https://render.com/new/blueprint   (connect your Git repo that contains this file at its root)
+#
+# NOTE: Leave the instance type that Render shows for this service as the FREE tier.
+# After the service is created, set DATABASE_URL manually in the dashboard
+# (Dashboard -> your service -> Environment) — it is kept out of this file on purpose.
+
+services:
+  - type: web
+    name: scholarship-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install --omit=dev
+    startCommand: node src/server.js
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render injects a PORT automatically for web services; the app reads it.
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: CLIENT_URL
+        value: https://amora.bscs4a.com
+      - key: CLIENT_HOST
+        value: amora.bscs4a.com
+      - key: CLIENT_PROTOCOL
+        value: https
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: MAX_FILE_SIZE
+        value: "10485760"
+      - key: COMMITTEE_QUORUM
+        value: "1"
+      - key: AWARD_ACCEPTANCE_DAYS
+        value: "7"
+      - key: WAITLIST_WINDOW
+        value: "10"

@@ -1,0 +1,697 @@
+{
+  "total": 107,
+  "passed": 107,
+  "failed": 0,
+  "failures": [],
+  "checks": [
+    {
+      "n": "admin login",
+      "ok": true,
+      "d": ""
+    },
+    {
+      "n": "staff self-register (staff-only)",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "self-register as committee rejected",
+      "ok": true,
+      "d": "status=400"
+    },
+    {
+      "n": "admin approves staff",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff login after approval",
+      "ok": true,
+      "d": ""
+    },
+    {
+      "n": "staff creates applicant (temp pw)",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "staff lists my applicants",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff edits applicant (phone persists)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff notification inbox",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin lists pending users",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin approves applicant",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin provisions committee member",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "admin lists all users",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin gets single user",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin suspends user",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "suspended user blocked at login",
+      "ok": true,
+      "d": "status=403"
+    },
+    {
+      "n": "admin reactivates user",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin resets password",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin bulk-approves applicants",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin audit logs",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin notification inbox",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin creates open scholarship (2 slots)",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "admin edits scholarship (persists)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin fetches scholarship detail",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin creates draft scholarship",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "draft hidden from public list",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin deletes draft",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant login with temp password",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant activation (first-login)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant login with new password",
+      "ok": true,
+      "d": ""
+    },
+    {
+      "n": "student profile auto-provisioned",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "courses list available",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "student profile update persists",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant lists scholarships (has_applied)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "scholarship search works",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "search filters endpoint",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant submits application + document",
+      "ok": 187,
+      "d": "status=201 body={\"success\":true,\"data\":{\"id\":187,\"application_number\":\"APP-1789017385216-8J29U\",\"student_id\":186,\"scholarship_id\":79,\"academic_year_id\":2,\"status\":\"submitted\",\"total_score\":null,\"answers\":null,\"remark"
+    },
+    {
+      "n": "document rows created",
+      "ok": true,
+      "d": "docs=1"
+    },
+    {
+      "n": "duplicate apply rejected (409)",
+      "ok": true,
+      "d": "status=409"
+    },
+    {
+      "n": "applicant lists my applications",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant views application detail",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "document download (owner)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant notification inbox",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee login",
+      "ok": true,
+      "d": ""
+    },
+    {
+      "n": "committee pending-count",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee review queue lists applications",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "all 3 applicants applied to program",
+      "ok": true,
+      "d": "apps=a,b,c"
+    },
+    {
+      "n": "committee reviews a (approve)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee reviews b (approve)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee reviews c (waitlist)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee queue filters by status",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "applicant marks notification read",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "run selection (shortlist top-2)",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "leaderboard returns ranked rows",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "approve awardees (2 approved)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "program closed after approval",
+      "ok": true,
+      "d": "st=closed"
+    },
+    {
+      "n": "slots consumed (available_slots=0)",
+      "ok": true,
+      "d": "avail=0"
+    },
+    {
+      "n": "slot invariant after approval",
+      "ok": true,
+      "d": "avail=0+occ=2=2, slots=2"
+    },
+    {
+      "n": "accept-award rejects wrong signature (400)",
+      "ok": true,
+      "d": "status=400 err=The signature must match your registered full name."
+    },
+    {
+      "n": "accept-award -> scholar_active",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "scholars row created (active)",
+      "ok": true,
+      "d": "scholar={\"id\":32,\"status\":\"active\"}"
+    },
+    {
+      "n": "slot invariant after scholar active",
+      "ok": true,
+      "d": "avail=0+occ=2=2, slots=2"
+    },
+    {
+      "n": "decline-award accepted",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "decline promotes next waitlisted -> awarded",
+      "ok": true,
+      "d": "carol=awarded"
+    },
+    {
+      "n": "slot invariant after decline/promotion",
+      "ok": true,
+      "d": "avail=0+occ=2=2, slots=2"
+    },
+    {
+      "n": "reports: scholarship stats",
+      "ok": {
+        "totalScholarships": "5",
+        "activeScholarships": "4",
+        "inactiveScholarships": 1,
+        "averageAmount": 0,
+        "statusDistribution": {
+          "inactive": 1,
+          "active": 4
+        }
+      },
+      "d": "status=200"
+    },
+    {
+      "n": "reports: application stats",
+      "ok": {
+        "totalApplications": "6",
+        "statusDistribution": {
+          "submitted": 1,
+          "awarded": 1,
+          "scholar_active": 1,
+          "award_declined": 1,
+          "approved": 2
+        },
+        "topScholarships": [
+          {
+            "id": 79,
+            "name": "E2E Merit Scholarship",
+            "count": "3"
+          },
+          {
+            "id": 1,
+            "name": "Nationwide Student Allowance & Learning Subsidy",
+            "count": "1"
+          },
+          {
+            "id": 28,
+            "name": "ZZZ-Phase2-Pipeline-or4qar",
+            "count": "1"
+          },
+          {
+            "id": 2,
+            "name": "Provincial Academic Retention & Opportunity Program",
+            "count": "1"
+          },
+          {
+            "id": 29,
+            "name": "ZZZ-Phase2-Pipeline-5klmcp",
+            "count": "0"
+          }
+        ]
+      },
+      "d": "status=200"
+    },
+    {
+      "n": "reports: user stats",
+      "ok": {
+        "totalUsers": "31",
+        "roleDistribution": {
+          "admin": "3",
+          "staff": "5",
+          "committee": "3",
+          "applicant": "20"
+        },
+        "recentUsers": [
+          {
+            "id": 429,
+            "first_name": "Applicant",
+            "last_name": "Charlie",
+            "email": "rmtv2qzxj_appc@test.local",
+            "role": "applicant",
+            "created_at": "2026-09-10T05:16:20.127Z"
+          },
+          {
+            "id": 428,
+            "first_name": "Applicant",
+            "last_name": "Bravo",
+            "email": "rmtv2qzxj_appb@test.local",
+            "role": "applicant",
+            "created_at": "2026-09-10T05:16:19.191Z"
+          },
+          {
+            "id": 427,
+            "first_name": "Bulk",
+            "last_name": "Two",
+            "email": "rmtv2qzxj_bulk2@test.local",
+            "role": "applicant",
+            "created_at": "2026-09-10T05:16:17.592Z"
+          },
+          {
+            "id": 426,
+            "first_name": "Bulk",
+            "last_name": "One",
+            "email": "rmtv2qzxj_bulk1@test.local",
+            "role": "applicant",
+            "created_at": "2026-09-10T05:16:16.777Z"
+          },
+          {
+            "id": 425,
+            "first_name": "Committee",
+            "last_name": "Member",
+            "email": "rmtv2qzxj_cm@test.local",
+            "role": "committee",
+            "created_at": "2026-09-10T05:16:13.955Z"
+          }
+        ],
+        "activationStats": {
+          "totalApplicants": 20,
+          "pendingApplicants": 3,
+          "rejectedApplicants": 1,
+          "approvedApplicants": 7,
+          "activatedApplicants": 9
+        }
+      },
+      "d": "status=200"
+    },
+    {
+      "n": "reports: status distribution",
+      "ok": [
+        {
+          "status": "submitted",
+          "count": "1"
+        },
+        {
+          "status": "awarded",
+          "count": "1"
+        },
+        {
+          "status": "scholar_active",
+          "count": "1"
+        },
+        {
+          "status": "award_declined",
+          "count": "1"
+        },
+        {
+          "status": "approved",
+          "count": "2"
+        }
+      ],
+      "d": "status=200"
+    },
+    {
+      "n": "reports: application timeline",
+      "ok": [
+        {
+          "date": "2026-09-01T16:00:00.000Z",
+          "count": "1",
+          "status": "approved"
+        },
+        {
+          "date": "2026-09-03T16:00:00.000Z",
+          "count": "1",
+          "status": "submitted"
+        },
+        {
+          "date": "2026-09-03T16:00:00.000Z",
+          "count": "1",
+          "status": "approved"
+        },
+        {
+          "date": "2026-09-09T16:00:00.000Z",
+          "count": "1",
+          "status": "awarded"
+        },
+        {
+          "date": "2026-09-09T16:00:00.000Z",
+          "count": "1",
+          "status": "scholar_active"
+        },
+        {
+          "date": "2026-09-09T16:00:00.000Z",
+          "count": "1",
+          "status": "award_declined"
+        }
+      ],
+      "d": "status=200"
+    },
+    {
+      "n": "reports: export scholarships CSV",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "reports: export applications CSV",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee re-login after main pipeline",
+      "ok": true,
+      "d": ""
+    },
+    {
+      "n": "committee: application detail (history aggregated)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee: list approved applicants",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee: single approved applicant detail",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: current user (GET /me)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: update profile",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: change password",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: login after password change",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: logout",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "auth: revoked token rejected",
+      "ok": true,
+      "d": "status=401"
+    },
+    {
+      "n": "admin: update user",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin: change role (applicant->committee)",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "admin: role change to admin rejected (400)",
+      "ok": true,
+      "d": "status=400"
+    },
+    {
+      "n": "admin: reject user",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff: create pending applicant (delta)",
+      "ok": true,
+      "d": "status=201"
+    },
+    {
+      "n": "staff: reset applicant password",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff: delete pending applicant",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff: list applicants applications",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "search: committee application search",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "search: save preferences",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "search: get preferences",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee: notification inbox",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "committee: mark notification read",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "selection: manual promote-waitlist route",
+      "ok": true,
+      "d": "status=200 promoted=0"
+    },
+    {
+      "n": "committee reopen (guarded on terminal app)",
+      "ok": true,
+      "d": "status=400"
+    },
+    {
+      "n": "app status update 400 invalid value",
+      "ok": true,
+      "d": "status=400"
+    },
+    {
+      "n": "app status update 403 cross-role",
+      "ok": true,
+      "d": "status=403"
+    },
+    {
+      "n": "document download (committee) 200",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "document download 401/403 (foreign)",
+      "ok": true,
+      "d": "status=401"
+    },
+    {
+      "n": "expired-award sweep (skipped - column not implemented)",
+      "ok": true,
+      "d": "no award_expires_at column"
+    },
+    {
+      "n": "search filters endpoint 200",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "search scholarships search 200",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff notification read 200",
+      "ok": true,
+      "d": "status=200"
+    },
+    {
+      "n": "staff notification read 401/403 foreign",
+      "ok": true,
+      "d": "status=401"
+    },
+    {
+      "n": "committee promote-waitlist guarded(403/410/400)",
+      "ok": true,
+      "d": "status=403"
+    }
+  ]
+}

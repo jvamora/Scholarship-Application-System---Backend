@@ -1,0 +1,921 @@
+[2.4s] HTTP POST /api/auth/login -> 200
+[2.4s] PASS  admin login
+[3.5s] HTTP POST /api/auth/register -> 201
+[3.5s] PASS  staff self-register (staff-only)  -- status=201
+[3.5s] HTTP POST /api/auth/register -> 400
+[3.5s] PASS  self-register as committee rejected  -- status=400
+[4.2s] HTTP POST /api/admin/users/361/approve -> 200
+[4.2s] PASS  admin approves staff  -- status=200
+[4.8s] HTTP POST /api/auth/login -> 200
+[4.8s] PASS  staff login after approval
+[5.7s] HTTP POST /api/staff/applicants -> 201
+[5.7s] PASS  staff creates applicant (temp pw)  -- status=201
+[6.6s] HTTP GET /api/staff/applicants -> 200
+[6.6s] PASS  staff lists my applicants  -- status=200
+[7.6s] HTTP PUT /api/staff/applicants/362 -> 200
+[7.6s] PASS  staff edits applicant (phone persists)  -- status=200
+[8.0s] HTTP GET /api/staff/notifications -> 200
+[8.0s] PASS  staff notification inbox  -- status=200
+[8.4s] HTTP GET /api/admin/pending-users -> 200
+[8.4s] PASS  admin lists pending users  -- status=200
+[9.2s] HTTP POST /api/admin/users/362/approve -> 200
+[9.2s] PASS  admin approves applicant  -- status=200
+[10.7s] HTTP POST /api/admin/create-user -> 201
+[10.7s] PASS  admin provisions committee member  -- status=201
+[11.1s] HTTP GET /api/admin/users -> 200
+[11.1s] PASS  admin lists all users  -- status=200
+[11.4s] HTTP GET /api/admin/users/363 -> 200
+[11.4s] PASS  admin gets single user  -- status=200
+[12.1s] HTTP POST /api/admin/users/363/suspend -> 200
+[12.1s] PASS  admin suspends user  -- status=200
+[12.5s] HTTP POST /api/auth/login -> 403
+[12.5s] PASS  suspended user blocked at login  -- status=403
+[13.2s] HTTP POST /api/admin/users/363/reactivate -> 200
+[13.2s] PASS  admin reactivates user  -- status=200
+[14.8s] HTTP POST /api/admin/users/363/reset-password -> 200
+[14.8s] PASS  admin resets password  -- status=200
+[15.7s] HTTP POST /api/staff/applicants -> 201
+[17.4s] HTTP POST /api/staff/applicants -> 201
+[18.7s] HTTP POST /api/admin/users/bulk-approve -> 200
+[18.7s] PASS  admin bulk-approves applicants  -- status=200
+[19.0s] HTTP GET /api/admin/audit-logs -> 200
+[19.0s] PASS  admin audit logs  -- status=200
+[19.5s] HTTP GET /api/admin/notifications -> 200
+[19.5s] PASS  admin notification inbox  -- status=200
+[20.7s] HTTP POST /api/staff/applicants -> 201
+[22.0s] HTTP POST /api/admin/users/366/approve -> 200
+[23.1s] HTTP POST /api/staff/applicants -> 201
+[24.1s] HTTP POST /api/admin/users/367/approve -> 200
+[25.6s] HTTP POST /api/scholarships -> 201
+[25.6s] PASS  admin creates open scholarship (2 slots)  -- status=201
+[26.5s] HTTP PUT /api/scholarships/66 -> 200
+[26.5s] PASS  admin edits scholarship (persists)  -- status=200
+[27.3s] HTTP GET /api/scholarships/66 -> 200
+[27.3s] PASS  admin fetches scholarship detail  -- status=200
+[28.3s] HTTP POST /api/scholarships -> 201
+[28.3s] PASS  admin creates draft scholarship  -- status=201
+[28.4s] HTTP GET /api/scholarships -> 200
+[28.4s] PASS  draft hidden from public list  -- status=200
+[28.7s] HTTP DELETE /api/scholarships/67 -> 200
+[28.7s] PASS  admin deletes draft  -- status=200
+[29.1s] HTTP POST /api/auth/login -> 200
+[29.1s] PASS  applicant login with temp password  -- status=200
+[31.0s] HTTP POST /api/auth/activate -> 200
+[31.0s] PASS  applicant activation (first-login)  -- status=200
+[31.6s] HTTP POST /api/auth/login -> 200
+[31.6s] PASS  applicant login with new password
+[32.7s] HTTP GET /api/student/me -> 200
+[32.7s] PASS  student profile auto-provisioned  -- status=200
+[33.0s] HTTP GET /api/student/courses -> 200
+[33.0s] PASS  courses list available  -- status=200
+[33.5s] HTTP PUT /api/student/me -> 200
+[33.5s] PASS  student profile update persists  -- status=200
+[33.8s] HTTP GET /api/scholarships -> 200
+[33.8s] PASS  applicant lists scholarships (has_applied)  -- status=200
+[34.1s] HTTP GET /api/search/scholarships/search?search=Merit -> 200
+[34.1s] PASS  scholarship search works  -- status=200
+[34.3s] HTTP GET /api/search/scholarships/filters -> 200
+[34.3s] PASS  search filters endpoint  -- status=200
+[37.2s] HTTP POST /api/applications -> 201
+[37.2s] PASS  applicant submits application + document  -- status=201 body={"success":true,"data":{"id":168,"application_number":"APP-1789003463583-LJUR5","student_id":166,"scholarship_id":66,"academic_year_id":2,"status":"submitted","total_score":null,"answers":null,"remark
+[37.2s] PASS  document rows created  -- docs=1
+[37.6s] HTTP POST /api/applications -> 409
+[37.6s] PASS  duplicate apply rejected (409)  -- status=409
+[37.9s] HTTP GET /api/applications/me -> 200
+[37.9s] PASS  applicant lists my applications  -- status=200
+[38.9s] HTTP GET /api/applications/168 -> 200
+[38.9s] PASS  applicant views application detail  -- status=200
+[39.4s] HTTP GET /api/documents/26 -> 200
+[39.4s] PASS  document download (owner)  -- status=200
+[39.8s] HTTP GET /api/applications/notifications -> 200
+[39.8s] PASS  applicant notification inbox  -- status=200
+[40.5s] HTTP POST /api/auth/login -> 200
+[40.5s] PASS  committee login
+[40.9s] HTTP GET /api/committee/pending-count -> 200
+[40.9s] PASS  committee pending-count  -- status=200
+[41.6s] HTTP GET /api/committee/applications?scholarshipId=66 -> 200
+[41.6s] PASS  committee review queue lists applications  -- status=200
+[42.0s] HTTP POST /api/auth/login -> 200
+[43.6s] HTTP POST /api/auth/activate -> 200
+[43.9s] HTTP POST /api/auth/login -> 200
+[46.9s] HTTP POST /api/applications -> 201
+[47.3s] HTTP POST /api/auth/login -> 200
+[49.4s] HTTP POST /api/auth/activate -> 200
+[49.9s] HTTP POST /api/auth/login -> 200
+[52.6s] HTTP POST /api/applications -> 201
+[52.6s] PASS  all 3 applicants applied to program  -- apps=a,b,c
+[53.2s] HTTP POST /api/committee/applications/168/review -> 500
+[53.2s] FAIL  committee reviews a (approve)  -- status=undefined
+[53.9s] HTTP POST /api/committee/applications/169/review -> 500
+[53.9s] FAIL  committee reviews b (approve)  -- status=undefined
+[54.5s] HTTP POST /api/committee/applications/170/review -> 500
+[54.5s] FAIL  committee reviews c (waitlist)  -- status=undefined
+[54.9s] HTTP GET /api/committee/applications?scholarshipId=66&status=approved -> 200
+[54.9s] PASS  committee queue filters by status  -- status=200
+[55.5s] HTTP POST /api/auth/login -> 200
+[55.8s] HTTP GET /api/applications/notifications -> 200
+[55.8s] FAIL  applicant marks notification read  -- none present
+[56.8s] HTTP POST /api/selection/66/run -> 500
+[56.8s] FAIL  run selection (shortlist top-2)  -- data=undefined
+[57.8s] HTTP GET /api/selection/66/leaderboard -> 500
+[57.8s] FAIL  leaderboard returns ranked rows  -- rows=undefined
+[59.0s] HTTP POST /api/selection/66/approve-awardees -> 409
+[59.0s] FAIL  approve awardees (2 approved)  -- data=undefined
+[59.1s] FAIL  program closed after approval  -- st=open
+[59.1s] FAIL  slots consumed (available_slots=0)  -- avail=2
+[59.3s] PASS  slot invariant after approval  -- avail=2+occ=0=2, slots=2
+[59.8s] HTTP POST /api/applications/168/accept-award -> 409
+[59.8s] FAIL  accept-award rejects wrong signature (400)  -- status=409
+[60.5s] HTTP POST /api/applications/168/accept-award -> 409
+[60.5s] FAIL  accept-award -> scholar_active  -- status=undefined
+[60.7s] FAIL  scholars row created (active)  -- scholar=undefined
+[61.1s] PASS  slot invariant after scholar active  -- avail=2+occ=0=2, slots=2
+[61.5s] HTTP POST /api/auth/login -> 200
+[62.2s] HTTP POST /api/applications/169/decline-award -> 409
+[62.2s] FAIL  decline-award accepted  -- status=409
+[62.4s] FAIL  decline promotes next waitlisted -> awarded  -- carol=submitted
+[62.6s] PASS  slot invariant after decline/promotion  -- avail=2+occ=0=2, slots=2
+[63.5s] HTTP GET /api/reports/scholarships -> 200
+[63.5s] PASS  reports: scholarship stats  -- status=200
+[64.3s] HTTP GET /api/reports/applications -> 200
+[64.3s] PASS  reports: application stats  -- status=200
+[65.3s] HTTP GET /api/reports/users -> 200
+[65.3s] PASS  reports: user stats  -- status=200
+[65.8s] HTTP GET /api/reports/status-distribution -> 200
+[65.8s] PASS  reports: status distribution  -- status=200
+[66.3s] HTTP GET /api/reports/timeline -> 200
+[66.3s] PASS  reports: application timeline  -- status=200
+[66.7s] HTTP GET /api/reports/export/scholarships -> 200
+[66.7s] PASS  reports: export scholarships CSV  -- status=200
+[67.1s] HTTP GET /api/reports/export/applications -> 200
+[67.1s] PASS  reports: export applications CSV  -- status=200
+[67.6s] HTTP POST /api/auth/login -> 200
+[67.6s] PASS  committee re-login after main pipeline
+[68.4s] HTTP GET /api/committee/applications/168 -> 200
+[68.4s] PASS  committee: application detail (history aggregated)  -- status=200
+[68.8s] HTTP GET /api/committee/applicants -> 200
+[68.8s] PASS  committee: list approved applicants  -- status=200
+[69.1s] HTTP GET /api/committee/applicants/364 -> 200
+[69.1s] PASS  committee: single approved applicant detail  -- status=200
+[69.4s] HTTP GET /api/auth/me -> 200
+[69.4s] PASS  auth: current user (GET /me)  -- status=200
+[70.0s] HTTP PUT /api/auth/profile -> 200
+[70.0s] PASS  auth: update profile  -- status=200
+[71.1s] HTTP POST /api/auth/change-password -> 200
+[71.1s] PASS  auth: change password  -- status=200
+[71.5s] HTTP POST /api/auth/login -> 200
+[71.5s] PASS  auth: login after password change  -- status=200
+[71.9s] HTTP POST /api/auth/logout -> 200
+[71.9s] PASS  auth: logout  -- status=200
+[72.2s] HTTP GET /api/auth/me -> 401
+[72.2s] PASS  auth: revoked token rejected  -- status=401
+[73.1s] HTTP PUT /api/admin/users/364 -> 200
+[73.1s] PASS  admin: update user  -- status=200
+[74.3s] HTTP POST /api/admin/users/364/role -> 200
+[74.4s] PASS  admin: change role (applicant->committee)  -- status=200
+[74.5s] HTTP POST /api/admin/users/364/role -> 400
+[74.5s] PASS  admin: role change to admin rejected (400)  -- status=400
+[75.3s] HTTP POST /api/admin/users/365/reject -> 200
+[75.3s] PASS  admin: reject user  -- status=200
+[76.1s] HTTP POST /api/staff/applicants -> 201
+[76.1s] PASS  staff: create pending applicant (delta)  -- status=201
+[77.0s] HTTP POST /api/staff/applicants/368/reset-password -> 200
+[77.0s] PASS  staff: reset applicant password  -- status=200
+[77.6s] HTTP DELETE /api/staff/applicants/368 -> 200
+[77.6s] PASS  staff: delete pending applicant  -- status=200
+[77.9s] HTTP GET /api/staff/applicants/applications -> 200
+[77.9s] PASS  staff: list applicants applications  -- status=200
+[78.3s] HTTP GET /api/search/applications/search?status=approved -> 200
+[78.3s] PASS  search: committee application search  -- status=200
+[78.4s] HTTP POST /api/search/search/preferences -> 200
+[78.4s] PASS  search: save preferences  -- status=200
+[78.7s] HTTP GET /api/search/search/preferences -> 200
+[78.7s] PASS  search: get preferences  -- status=200
+[79.0s] HTTP GET /api/committee/notifications -> 200
+[79.0s] PASS  committee: notification inbox  -- status=200
+[79.3s] HTTP POST /api/committee/notifications/1142/read -> 200
+[79.3s] PASS  committee: mark notification read  -- status=200
+[80.3s] HTTP POST /api/selection/66/promote-waitlist -> 200
+[80.3s] PASS  selection: manual promote-waitlist route  -- status=200 promoted=0
+[80.3s] --- EXPANDED ROUTE COVERAGE ---
+[80.5s] HTTP POST /api/committee/applications/168/reopen -> 400
+[80.5s] PASS  committee reopen (guarded on terminal app)  -- status=400
+[80.6s] HTTP PUT /api/applications/168/status -> 400
+[80.6s] PASS  app status update 400 invalid value  -- status=400
+[80.8s] HTTP PUT /api/applications/168/status -> 403
+[80.8s] PASS  app status update 403 cross-role  -- status=403
+[81.2s] HTTP GET /api/documents/26 -> 200
+[81.2s] PASS  document download (committee) 200  -- status=200
+[81.3s] HTTP GET /api/documents/26 -> 401
+[81.3s] PASS  document download 401/403 (foreign)  -- status=401
+[81.3s] PASS  expired-award sweep (skipped - column not implemented)  -- no award_expires_at column
+[81.6s] HTTP GET /api/search/scholarships/filters -> 200
+[81.6s] PASS  search filters endpoint 200  -- status=200
+[81.8s] HTTP GET /api/search/scholarships/search?status=open -> 200
+[81.8s] PASS  search scholarships search 200  -- status=200
+[82.2s] HTTP POST /api/staff/notifications/1143/read -> 200
+[82.2s] PASS  staff notification read 200  -- status=200
+[82.3s] HTTP POST /api/staff/notifications/1143/read -> 401
+[82.3s] PASS  staff notification read 401/403 foreign  -- status=401
+[82.5s] HTTP POST /api/selection/66/promote-waitlist -> 403
+[82.5s] PASS  committee promote-waitlist guarded(403/410/400)  -- status=403
+[82.5s] --- CLEANUP ---
+[84.1s] cleanup completed
+[84.1s] === 93/107 feature checks passed ===
+[84.1s] FAILURES: ["committee reviews a (approve) [status=undefined]","committee reviews b (approve) [status=undefined]","committee reviews c (waitlist) [status=undefined]","applicant marks notification read [none present]","run selection (shortlist top-2) [data=undefined]","leaderboard returns ranked rows [rows=undefined]","approve awardees (2 approved) [data=undefined]","program closed after approval [st=open]","slots consumed (available_slots=0) [avail=2]","accept-award rejects wrong signature (400) [status=409]","accept-award -> scholar_active [status=undefined]","scholars row created (active) [scholar=undefined]","decline-award accepted [status=409]","decline promotes next waitlisted -> awarded [carol=submitted]"]
+[2.3s] HTTP POST /api/auth/login -> 200
+[2.3s] PASS  admin login
+[2.9s] HTTP POST /api/auth/register -> 201
+[2.9s] PASS  staff self-register (staff-only)  -- status=201
+[2.9s] HTTP POST /api/auth/register -> 400
+[2.9s] PASS  self-register as committee rejected  -- status=400
+[3.5s] HTTP POST /api/admin/users/370/approve -> 200
+[3.5s] PASS  admin approves staff  -- status=200
+[3.8s] HTTP POST /api/auth/login -> 200
+[3.8s] PASS  staff login after approval
+[4.7s] HTTP POST /api/staff/applicants -> 201
+[4.7s] PASS  staff creates applicant (temp pw)  -- status=201
+[5.1s] HTTP GET /api/staff/applicants -> 200
+[5.1s] PASS  staff lists my applicants  -- status=200
+[5.8s] HTTP PUT /api/staff/applicants/371 -> 200
+[5.8s] PASS  staff edits applicant (phone persists)  -- status=200
+[6.4s] HTTP GET /api/staff/notifications -> 200
+[6.4s] PASS  staff notification inbox  -- status=200
+[1.3s] HTTP POST /api/auth/login -> 200
+[1.3s] PASS  admin login
+[1.7s] HTTP POST /api/auth/register -> 201
+[1.7s] PASS  staff self-register (staff-only)  -- status=201
+[1.7s] HTTP POST /api/auth/register -> 400
+[1.7s] PASS  self-register as committee rejected  -- status=400
+[2.1s] HTTP POST /api/admin/users/393/approve -> 200
+[2.1s] PASS  admin approves staff  -- status=200
+[2.4s] HTTP POST /api/auth/login -> 200
+[2.4s] PASS  staff login after approval
+[3.0s] HTTP POST /api/staff/applicants -> 201
+[3.0s] PASS  staff creates applicant (temp pw)  -- status=201
+[3.1s] HTTP GET /api/staff/applicants -> 200
+[3.1s] PASS  staff lists my applicants  -- status=200
+[3.5s] HTTP PUT /api/staff/applicants/394 -> 200
+[3.5s] PASS  staff edits applicant (phone persists)  -- status=200
+[3.6s] HTTP GET /api/staff/notifications -> 200
+[3.6s] PASS  staff notification inbox  -- status=200
+[3.8s] HTTP GET /api/admin/pending-users -> 200
+[3.8s] PASS  admin lists pending users  -- status=200
+[4.2s] HTTP POST /api/admin/users/394/approve -> 200
+[4.2s] PASS  admin approves applicant  -- status=200
+[4.8s] HTTP POST /api/admin/create-user -> 201
+[4.8s] PASS  admin provisions committee member  -- status=201
+[5.0s] HTTP GET /api/admin/users -> 200
+[5.0s] PASS  admin lists all users  -- status=200
+[5.2s] HTTP GET /api/admin/users/395 -> 200
+[5.2s] PASS  admin gets single user  -- status=200
+[5.5s] HTTP POST /api/admin/users/395/suspend -> 200
+[5.5s] PASS  admin suspends user  -- status=200
+[5.7s] HTTP POST /api/auth/login -> 403
+[5.7s] PASS  suspended user blocked at login  -- status=403
+[6.0s] HTTP POST /api/admin/users/395/reactivate -> 200
+[6.0s] PASS  admin reactivates user  -- status=200
+[6.6s] HTTP POST /api/admin/users/395/reset-password -> 200
+[6.6s] PASS  admin resets password  -- status=200
+[7.2s] HTTP POST /api/staff/applicants -> 201
+[7.7s] HTTP POST /api/staff/applicants -> 201
+[8.2s] HTTP POST /api/admin/users/bulk-approve -> 200
+[8.2s] PASS  admin bulk-approves applicants  -- status=200
+[8.4s] HTTP GET /api/admin/audit-logs -> 200
+[8.4s] PASS  admin audit logs  -- status=200
+[8.5s] HTTP GET /api/admin/notifications -> 200
+[8.5s] PASS  admin notification inbox  -- status=200
+[9.1s] HTTP POST /api/staff/applicants -> 201
+[9.5s] HTTP POST /api/admin/users/398/approve -> 200
+[10.0s] HTTP POST /api/staff/applicants -> 201
+[10.4s] HTTP POST /api/admin/users/399/approve -> 200
+[11.0s] HTTP POST /api/scholarships -> 201
+[11.0s] PASS  admin creates open scholarship (2 slots)  -- status=201
+[11.3s] HTTP PUT /api/scholarships/72 -> 200
+[11.3s] PASS  admin edits scholarship (persists)  -- status=200
+[11.6s] HTTP GET /api/scholarships/72 -> 200
+[11.6s] PASS  admin fetches scholarship detail  -- status=200
+[11.9s] HTTP POST /api/scholarships -> 201
+[11.9s] PASS  admin creates draft scholarship  -- status=201
+[12.0s] HTTP GET /api/scholarships -> 200
+[12.0s] PASS  draft hidden from public list  -- status=200
+[12.2s] HTTP DELETE /api/scholarships/73 -> 200
+[12.2s] PASS  admin deletes draft  -- status=200
+[12.4s] HTTP POST /api/auth/login -> 200
+[12.4s] PASS  applicant login with temp password  -- status=200
+[13.3s] HTTP POST /api/auth/activate -> 200
+[13.3s] PASS  applicant activation (first-login)  -- status=200
+[13.5s] HTTP POST /api/auth/login -> 200
+[13.5s] PASS  applicant login with new password
+[14.0s] HTTP GET /api/student/me -> 200
+[14.0s] PASS  student profile auto-provisioned  -- status=200
+[14.2s] HTTP GET /api/student/courses -> 200
+[14.2s] PASS  courses list available  -- status=200
+[14.5s] HTTP PUT /api/student/me -> 200
+[14.5s] PASS  student profile update persists  -- status=200
+[14.7s] HTTP GET /api/scholarships -> 200
+[14.7s] PASS  applicant lists scholarships (has_applied)  -- status=200
+[14.8s] HTTP GET /api/search/scholarships/search?search=Merit -> 200
+[14.8s] PASS  scholarship search works  -- status=200
+[15.0s] HTTP GET /api/search/scholarships/filters -> 200
+[15.0s] PASS  search filters endpoint  -- status=200
+[16.6s] HTTP POST /api/applications -> 201
+[16.6s] PASS  applicant submits application + document  -- status=201 body={"success":true,"data":{"id":178,"application_number":"APP-1789014327322-PZANS","student_id":177,"scholarship_id":72,"academic_year_id":2,"status":"submitted","total_score":null,"answers":null,"remark
+[16.6s] PASS  document rows created  -- docs=1
+[16.9s] HTTP POST /api/applications -> 409
+[16.9s] PASS  duplicate apply rejected (409)  -- status=409
+[17.0s] HTTP GET /api/applications/me -> 200
+[17.0s] PASS  applicant lists my applications  -- status=200
+[17.4s] HTTP GET /api/applications/178 -> 200
+[17.4s] PASS  applicant views application detail  -- status=200
+[17.6s] HTTP GET /api/documents/29 -> 200
+[17.6s] PASS  document download (owner)  -- status=200
+[17.8s] HTTP GET /api/applications/notifications -> 200
+[17.8s] PASS  applicant notification inbox  -- status=200
+[18.0s] HTTP POST /api/auth/login -> 200
+[18.0s] PASS  committee login
+[18.2s] HTTP GET /api/committee/pending-count -> 200
+[18.2s] PASS  committee pending-count  -- status=200
+[18.4s] HTTP GET /api/committee/applications?scholarshipId=72 -> 200
+[18.4s] PASS  committee review queue lists applications  -- status=200
+[18.6s] HTTP POST /api/auth/login -> 200
+[19.5s] HTTP POST /api/auth/activate -> 200
+[19.7s] HTTP POST /api/auth/login -> 200
+[20.9s] HTTP POST /api/applications -> 201
+[21.1s] HTTP POST /api/auth/login -> 200
+[22.0s] HTTP POST /api/auth/activate -> 200
+[22.2s] HTTP POST /api/auth/login -> 200
+[23.4s] HTTP POST /api/applications -> 201
+[23.4s] PASS  all 3 applicants applied to program  -- apps=a,b,c
+[24.1s] HTTP POST /api/committee/applications/178/review -> 200
+[24.1s] PASS  committee reviews a (approve)  -- status=approved
+[24.8s] HTTP POST /api/committee/applications/179/review -> 200
+[24.8s] PASS  committee reviews b (approve)  -- status=approved
+[25.5s] HTTP POST /api/committee/applications/180/review -> 200
+[25.5s] PASS  committee reviews c (waitlist)  -- status=waitlisted
+[25.8s] HTTP GET /api/committee/applications?scholarshipId=72&status=approved -> 200
+[25.8s] PASS  committee queue filters by status  -- status=200
+[26.0s] HTTP POST /api/auth/login -> 200
+[26.2s] HTTP GET /api/applications/notifications -> 200
+[26.4s] HTTP POST /api/applications/notifications/1218/read -> 200
+[26.4s] PASS  applicant marks notification read  -- status=200
+[27.6s] HTTP POST /api/selection/72/run -> 201
+[27.6s] PASS  run selection (shortlist top-2)  -- data={"runId":41,"cutoff":2,"waitlistSize":10,"evaluated":3,"shortlisted":2,"waitlisted":1,"rejected":0,"ties":[],"requeuedForReview":0}
+[28.0s] HTTP GET /api/selection/72/leaderboard -> 200
+[28.0s] PASS  leaderboard returns ranked rows  -- rows=3
+[29.5s] HTTP POST /api/selection/72/approve-awardees -> 200
+[29.5s] PASS  approve awardees (2 approved)  -- data={"approved":2,"waitlisted":1,"rejected":0,"cutoff":2,"acceptanceDays":7,"lockedRunId":41}
+[29.5s] PASS  program closed after approval  -- st=closed
+[29.5s] PASS  slots consumed (available_slots=0)  -- avail=0
+[29.6s] PASS  slot invariant after approval  -- avail=0+occ=2=2, slots=2
+[29.9s] HTTP POST /api/applications/178/accept-award -> 400
+[29.9s] PASS  accept-award rejects wrong signature (400)  -- status=400
+[30.7s] HTTP POST /api/applications/178/accept-award -> 200
+[30.7s] PASS  accept-award -> scholar_active  -- status=scholar_active
+[30.8s] PASS  scholars row created (active)  -- scholar={"id":30,"status":"active"}
+[30.8s] PASS  slot invariant after scholar active  -- avail=0+occ=2=2, slots=2
+[31.3s] HTTP POST /api/auth/login -> 200
+[32.6s] HTTP POST /api/applications/179/decline-award -> 200
+[32.6s] PASS  decline-award accepted  -- status=200
+[32.7s] PASS  decline promotes next waitlisted -> awarded  -- carol=awarded
+[32.7s] PASS  slot invariant after decline/promotion  -- avail=0+occ=2=2, slots=2
+[33.2s] HTTP GET /api/reports/scholarships -> 200
+[33.2s] PASS  reports: scholarship stats  -- status=200
+[33.5s] HTTP GET /api/reports/applications -> 200
+[33.5s] PASS  reports: application stats  -- status=200
+[33.9s] HTTP GET /api/reports/users -> 200
+[33.9s] PASS  reports: user stats  -- status=200
+[34.1s] HTTP GET /api/reports/status-distribution -> 200
+[34.1s] PASS  reports: status distribution  -- status=200
+[34.3s] HTTP GET /api/reports/timeline -> 200
+[34.3s] PASS  reports: application timeline  -- status=200
+[34.4s] HTTP GET /api/reports/export/scholarships -> 200
+[34.4s] PASS  reports: export scholarships CSV  -- status=200
+[34.6s] HTTP GET /api/reports/export/applications -> 200
+[34.6s] PASS  reports: export applications CSV  -- status=200
+[34.9s] HTTP POST /api/auth/login -> 200
+[34.9s] PASS  committee re-login after main pipeline
+[35.3s] HTTP GET /api/committee/applications/178 -> 200
+[35.3s] PASS  committee: application detail (history aggregated)  -- status=200
+[35.5s] HTTP GET /api/committee/applicants -> 200
+[35.5s] PASS  committee: list approved applicants  -- status=200
+[35.6s] HTTP GET /api/committee/applicants/396 -> 200
+[35.6s] PASS  committee: single approved applicant detail  -- status=200
+[35.8s] HTTP GET /api/auth/me -> 200
+[35.8s] PASS  auth: current user (GET /me)  -- status=200
+[36.1s] HTTP PUT /api/auth/profile -> 200
+[36.1s] PASS  auth: update profile  -- status=200
+[36.6s] HTTP POST /api/auth/change-password -> 200
+[36.6s] PASS  auth: change password  -- status=200
+[36.9s] HTTP POST /api/auth/login -> 200
+[36.9s] PASS  auth: login after password change  -- status=200
+[37.0s] HTTP POST /api/auth/logout -> 200
+[37.0s] PASS  auth: logout  -- status=200
+[37.1s] HTTP GET /api/auth/me -> 401
+[37.1s] PASS  auth: revoked token rejected  -- status=401
+[37.5s] HTTP PUT /api/admin/users/396 -> 200
+[37.5s] PASS  admin: update user  -- status=200
+[37.9s] HTTP POST /api/admin/users/396/role -> 200
+[37.9s] PASS  admin: change role (applicant->committee)  -- status=200
+[38.0s] HTTP POST /api/admin/users/396/role -> 400
+[38.0s] PASS  admin: role change to admin rejected (400)  -- status=400
+[38.4s] HTTP POST /api/admin/users/397/reject -> 200
+[38.4s] PASS  admin: reject user  -- status=200
+[39.0s] HTTP POST /api/staff/applicants -> 201
+[39.0s] PASS  staff: create pending applicant (delta)  -- status=201
+[39.6s] HTTP POST /api/staff/applicants/400/reset-password -> 200
+[39.6s] PASS  staff: reset applicant password  -- status=200
+[40.1s] HTTP DELETE /api/staff/applicants/400 -> 200
+[40.1s] PASS  staff: delete pending applicant  -- status=200
+[40.2s] HTTP GET /api/staff/applicants/applications -> 200
+[40.2s] PASS  staff: list applicants applications  -- status=200
+[40.5s] HTTP GET /api/search/applications/search?status=approved -> 200
+[40.5s] PASS  search: committee application search  -- status=200
+[40.6s] HTTP POST /api/search/search/preferences -> 200
+[40.6s] PASS  search: save preferences  -- status=200
+[40.6s] HTTP GET /api/search/search/preferences -> 200
+[40.6s] PASS  search: get preferences  -- status=200
+[40.8s] HTTP GET /api/committee/notifications -> 200
+[40.8s] PASS  committee: notification inbox  -- status=200
+[41.0s] HTTP POST /api/committee/notifications/1217/read -> 200
+[41.0s] PASS  committee: mark notification read  -- status=200
+[41.4s] HTTP POST /api/selection/72/promote-waitlist -> 200
+[41.4s] PASS  selection: manual promote-waitlist route  -- status=200 promoted=0
+[41.4s] --- EXPANDED ROUTE COVERAGE ---
+[41.5s] HTTP POST /api/committee/applications/178/reopen -> 400
+[41.5s] PASS  committee reopen (guarded on terminal app)  -- status=400
+[41.6s] HTTP PUT /api/applications/178/status -> 400
+[41.6s] PASS  app status update 400 invalid value  -- status=400
+[41.6s] HTTP PUT /api/applications/178/status -> 403
+[41.6s] PASS  app status update 403 cross-role  -- status=403
+[41.9s] HTTP GET /api/documents/29 -> 200
+[41.9s] PASS  document download (committee) 200  -- status=200
+[42.0s] HTTP GET /api/documents/29 -> 401
+[42.0s] PASS  document download 401/403 (foreign)  -- status=401
+[42.0s] PASS  expired-award sweep (skipped - column not implemented)  -- no award_expires_at column
+[42.1s] HTTP GET /api/search/scholarships/filters -> 200
+[42.1s] PASS  search filters endpoint 200  -- status=200
+[42.3s] HTTP GET /api/search/scholarships/search?status=open -> 200
+[42.3s] PASS  search scholarships search 200  -- status=200
+[42.6s] HTTP POST /api/staff/notifications/1228/read -> 200
+[42.6s] PASS  staff notification read 200  -- status=200
+[42.6s] HTTP POST /api/staff/notifications/1228/read -> 401
+[42.6s] PASS  staff notification read 401/403 foreign  -- status=401
+[42.7s] HTTP POST /api/selection/72/promote-waitlist -> 403
+[42.7s] PASS  committee promote-waitlist guarded(403/410/400)  -- status=403
+[42.7s] --- CLEANUP ---
+[43.7s] cleanup completed
+[43.8s] === 107/107 feature checks passed ===
+[43.8s] FAILURES: []
+[1.0s] HTTP POST /api/auth/login -> 200
+[1.0s] PASS  admin login
+[1.4s] HTTP POST /api/auth/register -> 201
+[1.4s] PASS  staff self-register (staff-only)  -- status=201
+[1.4s] HTTP POST /api/auth/register -> 400
+[1.4s] PASS  self-register as committee rejected  -- status=400
+[1.8s] HTTP POST /api/admin/users/410/approve -> 200
+[1.8s] PASS  admin approves staff  -- status=200
+[2.0s] HTTP POST /api/auth/login -> 200
+[2.0s] PASS  staff login after approval
+[2.5s] HTTP POST /api/staff/applicants -> 201
+[2.5s] PASS  staff creates applicant (temp pw)  -- status=201
+[2.6s] HTTP GET /api/staff/applicants -> 200
+[2.6s] PASS  staff lists my applicants  -- status=200
+[2.9s] HTTP PUT /api/staff/applicants/411 -> 200
+[2.9s] PASS  staff edits applicant (phone persists)  -- status=200
+[3.1s] HTTP GET /api/staff/notifications -> 200
+[3.1s] PASS  staff notification inbox  -- status=200
+[3.2s] HTTP GET /api/admin/pending-users -> 200
+[3.2s] PASS  admin lists pending users  -- status=200
+[3.6s] HTTP POST /api/admin/users/411/approve -> 200
+[3.6s] PASS  admin approves applicant  -- status=200
+[4.1s] HTTP POST /api/admin/create-user -> 201
+[4.1s] PASS  admin provisions committee member  -- status=201
+[4.3s] HTTP GET /api/admin/users -> 200
+[4.3s] PASS  admin lists all users  -- status=200
+[4.5s] HTTP GET /api/admin/users/412 -> 200
+[4.5s] PASS  admin gets single user  -- status=200
+[4.8s] HTTP POST /api/admin/users/412/suspend -> 200
+[4.8s] PASS  admin suspends user  -- status=200
+[5.0s] HTTP POST /api/auth/login -> 403
+[5.0s] PASS  suspended user blocked at login  -- status=403
+[5.3s] HTTP POST /api/admin/users/412/reactivate -> 200
+[5.3s] PASS  admin reactivates user  -- status=200
+[5.8s] HTTP POST /api/admin/users/412/reset-password -> 200
+[5.8s] PASS  admin resets password  -- status=200
+[6.2s] HTTP POST /api/staff/applicants -> 201
+[6.6s] HTTP POST /api/staff/applicants -> 201
+[7.2s] HTTP POST /api/admin/users/bulk-approve -> 200
+[7.2s] PASS  admin bulk-approves applicants  -- status=200
+[7.3s] HTTP GET /api/admin/audit-logs -> 200
+[7.3s] PASS  admin audit logs  -- status=200
+[7.5s] HTTP GET /api/admin/notifications -> 200
+[7.5s] PASS  admin notification inbox  -- status=200
+[7.9s] HTTP POST /api/staff/applicants -> 201
+[8.3s] HTTP POST /api/admin/users/415/approve -> 200
+[8.7s] HTTP POST /api/staff/applicants -> 201
+[9.1s] HTTP POST /api/admin/users/416/approve -> 200
+[9.7s] HTTP POST /api/scholarships -> 201
+[9.7s] PASS  admin creates open scholarship (2 slots)  -- status=201
+[10.0s] HTTP PUT /api/scholarships/76 -> 200
+[10.0s] PASS  admin edits scholarship (persists)  -- status=200
+[10.2s] HTTP GET /api/scholarships/76 -> 200
+[10.2s] PASS  admin fetches scholarship detail  -- status=200
+[10.5s] HTTP POST /api/scholarships -> 201
+[10.5s] PASS  admin creates draft scholarship  -- status=201
+[10.6s] HTTP GET /api/scholarships -> 200
+[10.6s] PASS  draft hidden from public list  -- status=200
+[10.7s] HTTP DELETE /api/scholarships/77 -> 200
+[10.7s] PASS  admin deletes draft  -- status=200
+[11.0s] HTTP POST /api/auth/login -> 200
+[11.0s] PASS  applicant login with temp password  -- status=200
+[11.8s] HTTP POST /api/auth/activate -> 200
+[11.8s] PASS  applicant activation (first-login)  -- status=200
+[12.0s] HTTP POST /api/auth/login -> 200
+[12.0s] PASS  applicant login with new password
+[12.5s] HTTP GET /api/student/me -> 200
+[12.5s] PASS  student profile auto-provisioned  -- status=200
+[12.6s] HTTP GET /api/student/courses -> 200
+[12.6s] PASS  courses list available  -- status=200
+[12.9s] HTTP PUT /api/student/me -> 200
+[12.9s] PASS  student profile update persists  -- status=200
+[13.1s] HTTP GET /api/scholarships -> 200
+[13.1s] PASS  applicant lists scholarships (has_applied)  -- status=200
+[13.2s] HTTP GET /api/search/scholarships/search?search=Merit -> 200
+[13.2s] PASS  scholarship search works  -- status=200
+[13.4s] HTTP GET /api/search/scholarships/filters -> 200
+[13.4s] PASS  search filters endpoint  -- status=200
+[15.0s] HTTP POST /api/applications -> 201
+[15.0s] PASS  applicant submits application + document  -- status=201 body={"success":true,"data":{"id":183,"application_number":"APP-1789016221520-H8KPK","student_id":182,"scholarship_id":76,"academic_year_id":2,"status":"submitted","total_score":null,"answers":null,"remark
+[15.0s] PASS  document rows created  -- docs=1
+[15.2s] HTTP POST /api/applications -> 409
+[15.2s] PASS  duplicate apply rejected (409)  -- status=409
+[15.3s] HTTP GET /api/applications/me -> 200
+[15.3s] PASS  applicant lists my applications  -- status=200
+[15.7s] HTTP GET /api/applications/183 -> 200
+[15.7s] PASS  applicant views application detail  -- status=200
+[15.9s] HTTP GET /api/documents/32 -> 200
+[15.9s] PASS  document download (owner)  -- status=200
+[16.0s] HTTP GET /api/applications/notifications -> 200
+[16.0s] PASS  applicant notification inbox  -- status=200
+[16.2s] HTTP POST /api/auth/login -> 200
+[16.2s] PASS  committee login
+[16.4s] HTTP GET /api/committee/pending-count -> 200
+[16.4s] PASS  committee pending-count  -- status=200
+[16.6s] HTTP GET /api/committee/applications?scholarshipId=76 -> 200
+[16.6s] PASS  committee review queue lists applications  -- status=200
+[16.8s] HTTP POST /api/auth/login -> 200
+[17.6s] HTTP POST /api/auth/activate -> 200
+[17.8s] HTTP POST /api/auth/login -> 200
+[19.0s] HTTP POST /api/applications -> 201
+[19.2s] HTTP POST /api/auth/login -> 200
+[20.0s] HTTP POST /api/auth/activate -> 200
+[20.2s] HTTP POST /api/auth/login -> 200
+[21.4s] HTTP POST /api/applications -> 201
+[21.4s] PASS  all 3 applicants applied to program  -- apps=a,b,c
+[22.0s] HTTP POST /api/committee/applications/183/review -> 200
+[22.0s] PASS  committee reviews a (approve)  -- status=approved
+[22.7s] HTTP POST /api/committee/applications/184/review -> 200
+[22.7s] PASS  committee reviews b (approve)  -- status=approved
+[23.4s] HTTP POST /api/committee/applications/185/review -> 200
+[23.4s] PASS  committee reviews c (waitlist)  -- status=waitlisted
+[23.6s] HTTP GET /api/committee/applications?scholarshipId=76&status=approved -> 200
+[23.6s] PASS  committee queue filters by status  -- status=200
+[23.8s] HTTP POST /api/auth/login -> 200
+[24.0s] HTTP GET /api/applications/notifications -> 200
+[24.1s] HTTP POST /api/applications/notifications/1275/read -> 200
+[24.1s] PASS  applicant marks notification read  -- status=200
+[25.4s] HTTP POST /api/selection/76/run -> 201
+[25.4s] PASS  run selection (shortlist top-2)  -- data={"runId":44,"cutoff":2,"waitlistSize":10,"evaluated":3,"shortlisted":2,"waitlisted":1,"rejected":0,"ties":[],"requeuedForReview":0}
+[25.8s] HTTP GET /api/selection/76/leaderboard -> 200
+[25.8s] PASS  leaderboard returns ranked rows  -- rows=3
+[27.2s] HTTP POST /api/selection/76/approve-awardees -> 200
+[27.2s] PASS  approve awardees (2 approved)  -- data={"approved":2,"waitlisted":1,"rejected":0,"cutoff":2,"acceptanceDays":7,"lockedRunId":44}
+[27.3s] PASS  program closed after approval  -- st=closed
+[27.3s] PASS  slots consumed (available_slots=0)  -- avail=0
+[27.3s] PASS  slot invariant after approval  -- avail=0+occ=2=2, slots=2
+[27.7s] HTTP POST /api/applications/183/accept-award -> 400
+[27.7s] PASS  accept-award rejects wrong signature (400)  -- status=400
+[28.4s] HTTP POST /api/applications/183/accept-award -> 200
+[28.4s] PASS  accept-award -> scholar_active  -- status=scholar_active
+[28.4s] PASS  scholars row created (active)  -- scholar={"id":31,"status":"active"}
+[28.5s] PASS  slot invariant after scholar active  -- avail=0+occ=2=2, slots=2
+[28.7s] HTTP POST /api/auth/login -> 200
+[29.9s] HTTP POST /api/applications/184/decline-award -> 200
+[29.9s] PASS  decline-award accepted  -- status=200
+[30.0s] PASS  decline promotes next waitlisted -> awarded  -- carol=awarded
+[30.1s] PASS  slot invariant after decline/promotion  -- avail=0+occ=2=2, slots=2
+[30.5s] HTTP GET /api/reports/scholarships -> 200
+[30.5s] PASS  reports: scholarship stats  -- status=200
+[30.8s] HTTP GET /api/reports/applications -> 200
+[30.8s] PASS  reports: application stats  -- status=200
+[31.2s] HTTP GET /api/reports/users -> 200
+[31.2s] PASS  reports: user stats  -- status=200
+[31.4s] HTTP GET /api/reports/status-distribution -> 200
+[31.4s] PASS  reports: status distribution  -- status=200
+[31.5s] HTTP GET /api/reports/timeline -> 200
+[31.5s] PASS  reports: application timeline  -- status=200
+[31.7s] HTTP GET /api/reports/export/scholarships -> 200
+[31.7s] PASS  reports: export scholarships CSV  -- status=200
+[31.9s] HTTP GET /api/reports/export/applications -> 200
+[31.9s] PASS  reports: export applications CSV  -- status=200
+[32.1s] HTTP POST /api/auth/login -> 200
+[32.1s] PASS  committee re-login after main pipeline
+[32.5s] HTTP GET /api/committee/applications/183 -> 200
+[32.5s] PASS  committee: application detail (history aggregated)  -- status=200
+[32.6s] HTTP GET /api/committee/applicants -> 200
+[32.6s] PASS  committee: list approved applicants  -- status=200
+[32.8s] HTTP GET /api/committee/applicants/413 -> 200
+[32.8s] PASS  committee: single approved applicant detail  -- status=200
+[32.9s] HTTP GET /api/auth/me -> 200
+[32.9s] PASS  auth: current user (GET /me)  -- status=200
+[33.2s] HTTP PUT /api/auth/profile -> 200
+[33.2s] PASS  auth: update profile  -- status=200
+[33.9s] HTTP POST /api/auth/change-password -> 200
+[33.9s] PASS  auth: change password  -- status=200
+[34.2s] HTTP POST /api/auth/login -> 200
+[34.2s] PASS  auth: login after password change  -- status=200
+[34.3s] HTTP POST /api/auth/logout -> 200
+[34.3s] PASS  auth: logout  -- status=200
+[34.4s] HTTP GET /api/auth/me -> 401
+[34.4s] PASS  auth: revoked token rejected  -- status=401
+[34.8s] HTTP PUT /api/admin/users/413 -> 200
+[34.8s] PASS  admin: update user  -- status=200
+[35.2s] HTTP POST /api/admin/users/413/role -> 200
+[35.2s] PASS  admin: change role (applicant->committee)  -- status=200
+[35.3s] HTTP POST /api/admin/users/413/role -> 400
+[35.3s] PASS  admin: role change to admin rejected (400)  -- status=400
+[35.6s] HTTP POST /api/admin/users/414/reject -> 200
+[35.6s] PASS  admin: reject user  -- status=200
+[36.1s] HTTP POST /api/staff/applicants -> 201
+[36.1s] PASS  staff: create pending applicant (delta)  -- status=201
+[36.6s] HTTP POST /api/staff/applicants/417/reset-password -> 200
+[36.6s] PASS  staff: reset applicant password  -- status=200
+[37.0s] HTTP DELETE /api/staff/applicants/417 -> 200
+[37.0s] PASS  staff: delete pending applicant  -- status=200
+[37.2s] HTTP GET /api/staff/applicants/applications -> 200
+[37.2s] PASS  staff: list applicants applications  -- status=200
+[37.5s] HTTP GET /api/search/applications/search?status=approved -> 200
+[37.5s] PASS  search: committee application search  -- status=200
+[37.5s] HTTP POST /api/search/search/preferences -> 200
+[37.5s] PASS  search: save preferences  -- status=200
+[37.6s] HTTP GET /api/search/search/preferences -> 200
+[37.6s] PASS  search: get preferences  -- status=200
+[37.8s] HTTP GET /api/committee/notifications -> 200
+[37.8s] PASS  committee: notification inbox  -- status=200
+[37.9s] HTTP POST /api/committee/notifications/1272/read -> 200
+[37.9s] PASS  committee: mark notification read  -- status=200
+[38.3s] HTTP POST /api/selection/76/promote-waitlist -> 200
+[38.3s] PASS  selection: manual promote-waitlist route  -- status=200 promoted=0
+[38.3s] --- EXPANDED ROUTE COVERAGE ---
+[38.4s] HTTP POST /api/committee/applications/183/reopen -> 400
+[38.4s] PASS  committee reopen (guarded on terminal app)  -- status=400
+[38.5s] HTTP PUT /api/applications/183/status -> 400
+[38.5s] PASS  app status update 400 invalid value  -- status=400
+[38.6s] HTTP PUT /api/applications/183/status -> 403
+[38.6s] PASS  app status update 403 cross-role  -- status=403
+[38.8s] HTTP GET /api/documents/32 -> 200
+[38.8s] PASS  document download (committee) 200  -- status=200
+[38.9s] HTTP GET /api/documents/32 -> 401
+[38.9s] PASS  document download 401/403 (foreign)  -- status=401
+[38.9s] PASS  expired-award sweep (skipped - column not implemented)  -- no award_expires_at column
+[39.0s] HTTP GET /api/search/scholarships/filters -> 200
+[39.0s] PASS  search filters endpoint 200  -- status=200
+[39.2s] HTTP GET /api/search/scholarships/search?status=open -> 200
+[39.2s] PASS  search scholarships search 200  -- status=200
+[39.4s] HTTP POST /api/staff/notifications/1285/read -> 200
+[39.4s] PASS  staff notification read 200  -- status=200
+[39.5s] HTTP POST /api/staff/notifications/1285/read -> 401
+[39.5s] PASS  staff notification read 401/403 foreign  -- status=401
+[39.6s] HTTP POST /api/selection/76/promote-waitlist -> 403
+[39.6s] PASS  committee promote-waitlist guarded(403/410/400)  -- status=403
+[39.6s] --- CLEANUP ---
+[40.6s] cleanup completed
+[40.6s] === 107/107 feature checks passed ===
+[40.6s] FAILURES: []
+[1.4s] HTTP POST /api/auth/login -> 200
+[1.4s] PASS  admin login
+[1.8s] HTTP POST /api/auth/register -> 201
+[1.8s] PASS  staff self-register (staff-only)  -- status=201
+[1.8s] HTTP POST /api/auth/register -> 400 BODY={"error":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"staff\"\n    ],\n    \"path\": [\n      \"role\"\n    ],\n    \"message\": \"Invalid input: expected \\\"staff\\\"\"\n  }\n]"}
+[1.8s] PASS  self-register as committee rejected  -- status=400
+[2.2s] HTTP POST /api/admin/users/423/approve -> 200
+[2.2s] PASS  admin approves staff  -- status=200
+[2.6s] HTTP POST /api/auth/login -> 200
+[2.6s] PASS  staff login after approval
+[3.1s] HTTP POST /api/staff/applicants -> 201
+[3.1s] PASS  staff creates applicant (temp pw)  -- status=201
+[3.3s] HTTP GET /api/staff/applicants -> 200
+[3.3s] PASS  staff lists my applicants  -- status=200
+[3.6s] HTTP PUT /api/staff/applicants/424 -> 200
+[3.6s] PASS  staff edits applicant (phone persists)  -- status=200
+[3.8s] HTTP GET /api/staff/notifications -> 200
+[3.8s] PASS  staff notification inbox  -- status=200
+[3.9s] HTTP GET /api/admin/pending-users -> 200
+[3.9s] PASS  admin lists pending users  -- status=200
+[4.4s] HTTP POST /api/admin/users/424/approve -> 200
+[4.4s] PASS  admin approves applicant  -- status=200
+[5.0s] HTTP POST /api/admin/create-user -> 201
+[5.0s] PASS  admin provisions committee member  -- status=201
+[5.2s] HTTP GET /api/admin/users -> 200
+[5.2s] PASS  admin lists all users  -- status=200
+[5.3s] HTTP GET /api/admin/users/425 -> 200
+[5.3s] PASS  admin gets single user  -- status=200
+[5.7s] HTTP POST /api/admin/users/425/suspend -> 200
+[5.7s] PASS  admin suspends user  -- status=200
+[6.0s] HTTP POST /api/auth/login -> 403 BODY={"error":"⛔ Your account has been suspended. Please contact an administrator."}
+[6.0s] PASS  suspended user blocked at login  -- status=403
+[6.3s] HTTP POST /api/admin/users/425/reactivate -> 200
+[6.3s] PASS  admin reactivates user  -- status=200
+[7.1s] HTTP POST /api/admin/users/425/reset-password -> 200
+[7.1s] PASS  admin resets password  -- status=200
+[7.7s] HTTP POST /api/staff/applicants -> 201
+[8.6s] HTTP POST /api/staff/applicants -> 201
+[9.1s] HTTP POST /api/admin/users/bulk-approve -> 200
+[9.1s] PASS  admin bulk-approves applicants  -- status=200
+[9.3s] HTTP GET /api/admin/audit-logs -> 200
+[9.3s] PASS  admin audit logs  -- status=200
+[9.5s] HTTP GET /api/admin/notifications -> 200
+[9.5s] PASS  admin notification inbox  -- status=200
+[10.1s] HTTP POST /api/staff/applicants -> 201
+[10.5s] HTTP POST /api/admin/users/428/approve -> 200
+[11.1s] HTTP POST /api/staff/applicants -> 201
+[11.5s] HTTP POST /api/admin/users/429/approve -> 200
+[12.0s] HTTP POST /api/scholarships -> 201
+[12.0s] PASS  admin creates open scholarship (2 slots)  -- status=201
+[12.4s] HTTP PUT /api/scholarships/79 -> 200
+[12.4s] PASS  admin edits scholarship (persists)  -- status=200
+[12.6s] HTTP GET /api/scholarships/79 -> 200
+[12.6s] PASS  admin fetches scholarship detail  -- status=200
+[13.0s] HTTP POST /api/scholarships -> 201
+[13.0s] PASS  admin creates draft scholarship  -- status=201
+[13.1s] HTTP GET /api/scholarships -> 200
+[13.1s] PASS  draft hidden from public list  -- status=200
+[13.2s] HTTP DELETE /api/scholarships/80 -> 200
+[13.2s] PASS  admin deletes draft  -- status=200
+[13.6s] HTTP POST /api/auth/login -> 200
+[13.6s] PASS  applicant login with temp password  -- status=200
+[14.6s] HTTP POST /api/auth/activate -> 200
+[14.6s] PASS  applicant activation (first-login)  -- status=200
+[15.1s] HTTP POST /api/auth/login -> 200
+[15.1s] PASS  applicant login with new password
+[15.6s] HTTP GET /api/student/me -> 200
+[15.6s] PASS  student profile auto-provisioned  -- status=200
+[15.8s] HTTP GET /api/student/courses -> 200
+[15.8s] PASS  courses list available  -- status=200
+[16.1s] HTTP PUT /api/student/me -> 200
+[16.1s] PASS  student profile update persists  -- status=200
+[16.3s] HTTP GET /api/scholarships -> 200
+[16.3s] PASS  applicant lists scholarships (has_applied)  -- status=200
+[16.5s] HTTP GET /api/search/scholarships/search?search=Merit -> 200
+[16.5s] PASS  scholarship search works  -- status=200
+[16.6s] HTTP GET /api/search/scholarships/filters -> 200
+[16.6s] PASS  search filters endpoint  -- status=200
+[18.3s] HTTP POST /api/applications -> 201
+[18.3s] PASS  applicant submits application + document  -- status=201 body={"success":true,"data":{"id":187,"application_number":"APP-1789017385216-8J29U","student_id":186,"scholarship_id":79,"academic_year_id":2,"status":"submitted","total_score":null,"answers":null,"remark
+[18.3s] PASS  document rows created  -- docs=1
+[18.5s] HTTP POST /api/applications -> 409 BODY={"success":false,"message":"You have already submitted an application for this scholarship program."}
+[18.5s] PASS  duplicate apply rejected (409)  -- status=409
+[18.7s] HTTP GET /api/applications/me -> 200
+[18.7s] PASS  applicant lists my applications  -- status=200
+[19.1s] HTTP GET /api/applications/187 -> 200
+[19.1s] PASS  applicant views application detail  -- status=200
+[19.3s] HTTP GET /api/documents/34 -> 200
+[19.3s] PASS  document download (owner)  -- status=200
+[19.5s] HTTP GET /api/applications/notifications -> 200
+[19.5s] PASS  applicant notification inbox  -- status=200
+[19.7s] HTTP POST /api/auth/login -> 200
+[19.7s] PASS  committee login
+[19.9s] HTTP GET /api/committee/pending-count -> 200
+[19.9s] PASS  committee pending-count  -- status=200
+[20.1s] HTTP GET /api/committee/applications?scholarshipId=79 -> 200
+[20.1s] PASS  committee review queue lists applications  -- status=200
+[20.5s] HTTP POST /api/auth/login -> 200
+[21.5s] HTTP POST /api/auth/activate -> 200
+[21.7s] HTTP POST /api/auth/login -> 200
+[22.9s] HTTP POST /api/applications -> 201
+[23.2s] HTTP POST /api/auth/login -> 200
+[24.2s] HTTP POST /api/auth/activate -> 200
+[24.5s] HTTP POST /api/auth/login -> 200
+[25.6s] HTTP POST /api/applications -> 201
+[25.6s] PASS  all 3 applicants applied to program  -- apps=a,b,c
+[26.3s] HTTP POST /api/committee/applications/187/review -> 200
+[26.3s] PASS  committee reviews a (approve)  -- status=200
+[27.1s] HTTP POST /api/committee/applications/188/review -> 200
+[27.1s] PASS  committee reviews b (approve)  -- status=200
+[27.7s] HTTP POST /api/committee/applications/189/review -> 200
+[27.7s] PASS  committee reviews c (waitlist)  -- status=200
+[28.0s] HTTP GET /api/committee/applications?scholarshipId=79&status=approved -> 200
+[28.0s] PASS  committee queue filters by status  -- status=200
+[28.5s] HTTP POST /api/auth/login -> 200
+[28.7s] HTTP GET /api/applications/notifications -> 200
+[28.9s] HTTP POST /api/applications/notifications/1322/read -> 200
+[28.9s] PASS  applicant marks notification read  -- status=200
+[30.2s] HTTP POST /api/selection/79/run -> 201
+[30.2s] PASS  run selection (shortlist top-2)  -- status=201
+[30.6s] HTTP GET /api/selection/79/leaderboard -> 200
+[30.6s] PASS  leaderboard returns ranked rows  -- status=200
+[32.1s] HTTP POST /api/selection/79/approve-awardees -> 200
+[32.1s] PASS  approve awardees (2 approved)  -- status=200
+[32.2s] PASS  program closed after approval  -- st=closed
+[32.2s] PASS  slots consumed (available_slots=0)  -- avail=0
+[32.3s] PASS  slot invariant after approval  -- avail=0+occ=2=2, slots=2
+[32.6s] HTTP POST /api/applications/187/accept-award -> 400 BODY={"success":false,"error":"The signature must match your registered full name.","message":"The signature must match your registered full name."}
+[32.6s] PASS  accept-award rejects wrong signature (400)  -- status=400 err=The signature must match your registered full name.
+[33.3s] HTTP POST /api/applications/187/accept-award -> 200
+[33.4s] PASS  accept-award -> scholar_active  -- status=200
+[33.4s] PASS  scholars row created (active)  -- scholar={"id":32,"status":"active"}
+[33.5s] PASS  slot invariant after scholar active  -- avail=0+occ=2=2, slots=2
+[33.9s] HTTP POST /api/auth/login -> 200
+[35.1s] HTTP POST /api/applications/188/decline-award -> 200
+[35.1s] PASS  decline-award accepted  -- status=200
+[35.2s] PASS  decline promotes next waitlisted -> awarded  -- carol=awarded
+[35.3s] PASS  slot invariant after decline/promotion  -- avail=0+occ=2=2, slots=2
+[35.7s] HTTP GET /api/reports/scholarships -> 200
+[35.7s] PASS  reports: scholarship stats  -- status=200
+[36.0s] HTTP GET /api/reports/applications -> 200
+[36.0s] PASS  reports: application stats  -- status=200
+[36.4s] HTTP GET /api/reports/users -> 200
+[36.4s] PASS  reports: user stats  -- status=200
+[36.5s] HTTP GET /api/reports/status-distribution -> 200
+[36.5s] PASS  reports: status distribution  -- status=200
+[36.7s] HTTP GET /api/reports/timeline -> 200
+[36.7s] PASS  reports: application timeline  -- status=200
+[36.9s] HTTP GET /api/reports/export/scholarships -> 200
+[36.9s] PASS  reports: export scholarships CSV  -- status=200
+[37.0s] HTTP GET /api/reports/export/applications -> 200
+[37.0s] PASS  reports: export applications CSV  -- status=200
+[37.3s] HTTP POST /api/auth/login -> 200
+[37.3s] PASS  committee re-login after main pipeline
+[37.8s] HTTP GET /api/committee/applications/187 -> 200
+[37.8s] PASS  committee: application detail (history aggregated)  -- status=200
+[37.9s] HTTP GET /api/committee/applicants -> 200
+[37.9s] PASS  committee: list approved applicants  -- status=200
+[38.1s] HTTP GET /api/committee/applicants/426 -> 200
+[38.1s] PASS  committee: single approved applicant detail  -- status=200
+[38.3s] HTTP GET /api/auth/me -> 200
+[38.3s] PASS  auth: current user (GET /me)  -- status=200
+[38.5s] HTTP PUT /api/auth/profile -> 200
+[38.5s] PASS  auth: update profile  -- status=200
+[39.4s] HTTP POST /api/auth/change-password -> 200
+[39.4s] PASS  auth: change password  -- status=200
+[39.7s] HTTP POST /api/auth/login -> 200
+[39.7s] PASS  auth: login after password change  -- status=200
+[39.8s] HTTP POST /api/auth/logout -> 200
+[39.8s] PASS  auth: logout  -- status=200
+[39.9s] HTTP GET /api/auth/me -> 401 BODY={"error":"Session revoked. Please log in again."}
+[39.9s] PASS  auth: revoked token rejected  -- status=401
+[40.3s] HTTP PUT /api/admin/users/426 -> 200
+[40.3s] PASS  admin: update user  -- status=200
+[40.8s] HTTP POST /api/admin/users/426/role -> 200
+[40.8s] PASS  admin: change role (applicant->committee)  -- status=200
+[40.9s] HTTP POST /api/admin/users/426/role -> 400 BODY={"success":false,"error":"Role must be staff or committee"}
+[40.9s] PASS  admin: role change to admin rejected (400)  -- status=400
+[41.3s] HTTP POST /api/admin/users/427/reject -> 200
+[41.3s] PASS  admin: reject user  -- status=200
+[42.1s] HTTP POST /api/staff/applicants -> 201
+[42.1s] PASS  staff: create pending applicant (delta)  -- status=201
+[43.1s] HTTP POST /api/staff/applicants/430/reset-password -> 200
+[43.1s] PASS  staff: reset applicant password  -- status=200
+[43.5s] HTTP DELETE /api/staff/applicants/430 -> 200
+[43.5s] PASS  staff: delete pending applicant  -- status=200
+[43.7s] HTTP GET /api/staff/applicants/applications -> 200
+[43.7s] PASS  staff: list applicants applications  -- status=200
+[44.0s] HTTP GET /api/search/applications/search?status=approved -> 200
+[44.0s] PASS  search: committee application search  -- status=200
+[44.1s] HTTP POST /api/search/search/preferences -> 200
+[44.1s] PASS  search: save preferences  -- status=200
+[44.1s] HTTP GET /api/search/search/preferences -> 200
+[44.2s] PASS  search: get preferences  -- status=200
+[44.3s] HTTP GET /api/committee/notifications -> 200
+[44.3s] PASS  committee: notification inbox  -- status=200
+[44.5s] HTTP POST /api/committee/notifications/1319/read -> 200
+[44.5s] PASS  committee: mark notification read  -- status=200
+[44.9s] HTTP POST /api/selection/79/promote-waitlist -> 200
+[44.9s] PASS  selection: manual promote-waitlist route  -- status=200 promoted=0
+[44.9s] --- EXPANDED ROUTE COVERAGE ---
+[45.0s] HTTP POST /api/committee/applications/187/reopen -> 400 BODY={"success":false,"error":"A reason of at least 5 characters is required to re-open an application."}
+[45.0s] PASS  committee reopen (guarded on terminal app)  -- status=400
+[45.1s] HTTP PUT /api/applications/187/status -> 400 BODY={"success":false,"message":"Failed to update application status"}
+[45.1s] PASS  app status update 400 invalid value  -- status=400
+[45.2s] HTTP PUT /api/applications/187/status -> 403 BODY={"error":"Forbidden"}
+[45.2s] PASS  app status update 403 cross-role  -- status=403
+[45.5s] HTTP GET /api/documents/34 -> 200
+[45.5s] PASS  document download (committee) 200  -- status=200
+[45.6s] HTTP GET /api/documents/34 -> 401 BODY={"error":"Session revoked. Please log in again."}
+[45.6s] PASS  document download 401/403 (foreign)  -- status=401
+[45.6s] PASS  expired-award sweep (skipped - column not implemented)  -- no award_expires_at column
+[45.7s] HTTP GET /api/search/scholarships/filters -> 200
+[45.7s] PASS  search filters endpoint 200  -- status=200
+[45.9s] HTTP GET /api/search/scholarships/search?status=open -> 200
+[45.9s] PASS  search scholarships search 200  -- status=200
+[46.2s] HTTP POST /api/staff/notifications/1332/read -> 200
+[46.2s] PASS  staff notification read 200  -- status=200
+[46.3s] HTTP POST /api/staff/notifications/1332/read -> 401 BODY={"error":"Session revoked. Please log in again."}
+[46.3s] PASS  staff notification read 401/403 foreign  -- status=401
+[46.4s] HTTP POST /api/selection/79/promote-waitlist -> 403 BODY={"error":"Forbidden"}
+[46.4s] PASS  committee promote-waitlist guarded(403/410/400)  -- status=403
+[46.4s] --- CLEANUP ---
+[47.5s] cleanup completed
+[47.5s] === 107/107 feature checks passed ===
+[47.5s] FAILURES: []

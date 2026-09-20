@@ -1,0 +1,4 @@
+# Render / Railway start for the Scholarship API backend.
+# This file (Procfile) lives at the repo root that Render deploys.
+# Render runs: node src/server.js  (from the `server/` root directory)
+web: node src/server.js
