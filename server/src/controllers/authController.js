@@ -28,7 +28,10 @@ const register = async (req, res) => {
         id: user.id,
         email: user.email,
         first_name: user.first_name,
+        middle_name: user.middle_name,
         last_name: user.last_name,
+        name_suffix: user.name_suffix,
+        student_number: user.student_number,
         role: user.role,
       },
     });
@@ -70,7 +73,10 @@ const login = async (req, res) => {
         id: user.id,
         email: user.email,
         first_name: user.first_name,
+        middle_name: user.middle_name,
         last_name: user.last_name,
+        name_suffix: user.name_suffix,
+        student_number: user.student_number,
         role: user.role,
         status: user.status,
         is_first_login: user.is_first_login,
@@ -108,13 +114,13 @@ const logout = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { first_name, last_name, middle_name, phone, address } = req.body;
+    const { first_name, last_name, middle_name, name_suffix, student_number, phone, address } = req.body;
     if (!first_name || !last_name) {
       return res.status(400).json({ error: 'First name and last name are required.' });
     }
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: 'Unauthorized' });
-    await User.updateProfile(userId, { first_name, last_name, middle_name, phone, address });
+    await User.updateProfile(userId, { first_name, last_name, middle_name, name_suffix, student_number, phone, address });
     const updated = await User.findById(userId);
     res.json({ success: true, user: updated });
   } catch (error) {

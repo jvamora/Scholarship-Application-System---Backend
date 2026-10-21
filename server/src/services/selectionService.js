@@ -478,7 +478,7 @@ async function promoteInTx(connection, program, actorId, reason) {
 // Final Approval — lock the Top-N, open acceptance windows,
 // close the program, send the three tiers of notices.
 // ------------------------------------------------------------
-async function approveAwardees(scholarshipId, actorId) {
+async function approveAwardees(scholarshipId, actorId, selectedIds = []) {
   return transaction(async (connection) => {
     const [progs] = await connection.query(
       `SELECT * FROM scholarship_programs WHERE id = ? FOR UPDATE`, [scholarshipId]
@@ -500,18 +500,21 @@ async function approveAwardees(scholarshipId, actorId) {
     }
 
     // Blocking ties: any unresolved tie at or above the cutoff rank.
-    const [ties] = await connection.query(
-      `SELECT id, selection_rank, total_score
-         FROM applications
-        WHERE scholarship_id = ? AND selection_tie = TRUE AND selection_rank <= ?`,
-      [scholarshipId, cutoff]
-    );
-    if (ties.length > 0) {
-      const err = new SelectionError(
-        `Unresolved tie(s) at the rank-${cutoff} cutoff must be resolved before approval.`, 409
+    // Bypass tie check if explicitly selecting awardees, as the admin resolves it by selecting.
+    if (!selectedIds || selectedIds.length === 0) {
+      const [ties] = await connection.query(
+        `SELECT id, selection_rank, total_score
+           FROM applications
+          WHERE scholarship_id = ? AND selection_tie = TRUE AND selection_rank <= ?`,
+        [scholarshipId, cutoff]
       );
-      err.ties = ties;
-      throw err;
+      if (ties.length > 0) {
+        const err = new SelectionError(
+          `Unresolved tie(s) at the rank-${cutoff} cutoff must be resolved before approval.`, 409
+        );
+        err.ties = ties;
+        throw err;
+      }
     }
 
     // The ranked pool of this run that is still unlocked.
@@ -531,10 +534,21 @@ async function approveAwardees(scholarshipId, actorId) {
     let rejected = 0;
 
     for (const a of ranked) {
-      // Re-tag against the LIVE cutoff (handles admin slot edits since the run).
-      // Applications within the cutoff are AWARDED; those in the window stay
-      // waitlisted; the rest are rejected.
-      const nextStatus = tagForRank(a.selection_rank, cutoff);
+      // If admin explicitly selected awardees, use that.
+      // Otherwise, use the standard cutoff tagger.
+      let nextStatus = 'rejected';
+      if (selectedIds && selectedIds.length > 0) {
+        if (selectedIds.includes(a.id)) {
+          nextStatus = 'shortlisted';
+        } else if (a.selection_rank <= cutoff + WAITLIST_WINDOW) {
+          nextStatus = 'waitlisted';
+        } else {
+          nextStatus = 'rejected';
+        }
+      } else {
+        nextStatus = tagForRank(a.selection_rank, cutoff);
+      }
+      
       if (nextStatus === 'shortlisted') {
         await connection.query(
           `UPDATE applications

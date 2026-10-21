@@ -36,6 +36,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const committeeRoutes = require('./routes/committeeRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const selectionRoutes = require('./routes/selectionRoutes');
+const disbursementRoutes = require('./routes/disbursementRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 app.use('/api/home', homeRoutes);
 app.use('/api/staff', staffRoutes);
@@ -43,6 +44,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/committee', committeeRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/selection', selectionRoutes);
+app.use('/api/disbursements', disbursementRoutes);
 app.use('/api/notifications', notificationRoutes);
 // Error Handling Middleware
 app.use((err, req, res, next) => {

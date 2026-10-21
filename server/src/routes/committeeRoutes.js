@@ -334,33 +334,33 @@ router.post('/applications/:id/reopen', async (req, res) => {
       });
     }
 
-    const connection = await pool.getConnection();
+    const client = await pool.connect();
     try {
-      await connection.beginTransaction();
+      await client.query('BEGIN');
       // Re-open into 'under_review' — distinct from a fresh 'submitted' so
       // reviewers can see it previously went through a decision.
-      await connection.query(
+      await client.query(
         `UPDATE applications
             SET status = 'under_review', total_score = NULL, reviewed_at = NULL,
-                remarks = CONCAT(COALESCE(remarks, ''), ?)
-          WHERE id = ?`,
+                remarks = CONCAT(COALESCE(remarks, ''), $1)
+          WHERE id = $2`,
         [`\n[Decision recalled] ${reason}`, id]
       );
-      await connection.query(
+      await client.query(
         `INSERT INTO application_status_history (application_id, status, remarks, changed_by)
-         VALUES (?, 'under_review', ?, ?)`,
+         VALUES ($1, 'under_review', $2, $3)`,
         [
           id,
           `Decision recalled from "${current}" by ${req.user.role}: ${reason}`,
           req.user.id,
         ]
       );
-      await connection.commit();
+      await client.query('COMMIT');
     } catch (err) {
-      await connection.rollback();
+      try { await client.query('ROLLBACK'); } catch (e2) { /* nothing to roll back */ }
       throw err;
     } finally {
-      connection.release();
+      client.release();
     }
 
     // Notify the applicant their decided application was recalled into review.

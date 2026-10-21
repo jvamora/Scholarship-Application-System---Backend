@@ -223,7 +223,7 @@ const updateApplicationStatus = async (req, res) => {
 };
 
 // Withdraw an application (applicant owner only, pre-decision)
-const WITHDRAWABLE_STATUSES = ['submitted', 'under_review', 'committee_review', 'interview'];
+const WITHDRAWABLE_STATUSES = ['submitted', 'under_review', 'committee_review'];
 
 const withdrawApplication = async (req, res) => {
   try {

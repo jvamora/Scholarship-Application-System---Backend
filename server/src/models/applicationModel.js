@@ -75,11 +75,12 @@ class Application {
     const appNumber = `APP-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
 
     const newApplicationId = await transaction(async (connection) => {
+      const answersStr = typeof answers === 'string' ? answers : JSON.stringify(answers || {});
       const [appResult] = await connection.query(`
         INSERT INTO applications 
-          (application_number, student_id, scholarship_id, academic_year_id, status, submitted_at)
-        VALUES (?, ?, ?, ?, 'submitted', NOW())
-      `, [appNumber, studentId, scholarshipId, academicYearId]);
+          (application_number, student_id, scholarship_id, academic_year_id, status, submitted_at, answers)
+        VALUES (?, ?, ?, ?, 'submitted', NOW(), ?)
+      `, [appNumber, studentId, scholarshipId, academicYearId, answersStr]);
 
       const applicationId = appResult.insertId;
 

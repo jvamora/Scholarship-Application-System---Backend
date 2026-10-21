@@ -35,10 +35,10 @@ async function main(){
   const staffTok=(await login(staffEmail,'StaffPass123!')).token;rec('staff login after approval',!!staffTok);
 
   // --- STAFF CRUD ---
-  const cApp=await req('POST','/api/staff/applicants',{first_name:'Applicant',last_name:'Alpha',email:appE.a,phone:'09170000001',address:'1 Alpha St'},staffTok);rec('staff creates applicant (temp pw)',cApp.status===201&&!!cApp.json.tempPassword,`status=${cApp.status}`);
+  const cApp=await req('POST','/api/staff/applicants',{first_name:'Applicant',middle_name:'Amelia',last_name:'Alpha',email:appE.a,phone:'09170000001',address:'1 Alpha St',student_number:'SN-ALPHA'},staffTok);rec('staff creates applicant (temp pw)',cApp.status===201&&!!cApp.json.tempPassword,`status=${cApp.status}`);
   const adaId=cApp.json.applicant.id;ids.users.push(adaId);
   const listMine=await req('GET','/api/staff/applicants',null,staffTok);rec('staff lists my applicants',listMine.status===200&&listMine.json.applicants.some(u=>u.id===adaId),`status=${listMine.status}`);
-  const editApp=await req('PUT',`/api/staff/applicants/${adaId}`,{first_name:'Applicant',last_name:'Alpha',phone:'09170000009',email:appE.a},staffTok);rec('staff edits applicant (phone persists)',editApp.status===200&&editApp.json.applicant.phone==='09170000009',`status=${editApp.status}`);
+  const editApp=await req('PUT',`/api/staff/applicants/${adaId}`,{first_name:'Applicant',middle_name:'Amelia',last_name:'Alpha',phone:'09170000009',email:appE.a},staffTok);rec('staff edits applicant (phone persists)',editApp.status===200&&editApp.json.applicant.phone==='09170000009',`status=${editApp.status}`);
   const staffNotif=await req('GET','/api/staff/notifications',null,staffTok);rec('staff notification inbox',staffNotif.status===200,`status=${staffNotif.status}`);
 
   // --- ADMIN USER MGMT ---
@@ -51,14 +51,14 @@ async function main(){
   const suspLogin=await login(cmEmail,'CommPass123!');rec('suspended user blocked at login',suspLogin.r.status===403,`status=${suspLogin.r.status}`);
   const react=await req('POST',`/api/admin/users/${cmId}/reactivate`,{},adminTok);rec('admin reactivates user',react.status===200,`status=${react.status}`);
   const resetPw=await req('POST',`/api/admin/users/${cmId}/reset-password`,{newPassword:'NewCmPass123!'},adminTok);rec('admin resets password',resetPw.status===200,`status=${resetPw.status}`);
-  const b1=await req('POST','/api/staff/applicants',{first_name:'Bulk',last_name:'One',email:emailOf('bulk1'),password:'TempPass123!'},staffTok);const b2=await req('POST','/api/staff/applicants',{first_name:'Bulk',last_name:'Two',email:emailOf('bulk2'),password:'TempPass123!'},staffTok);const bIds=[b1.json.applicant.id,b2.json.applicant.id];ids.users.push(...bIds);
+  const b1=await req('POST','/api/staff/applicants',{first_name:'Bulk',middle_name:'B',last_name:'One',email:emailOf('bulk1'),password:'TempPass123!',student_number:'SN-B1'},staffTok);const b2=await req('POST','/api/staff/applicants',{first_name:'Bulk',middle_name:'B',last_name:'Two',email:emailOf('bulk2'),password:'TempPass123!',student_number:'SN-B2'},staffTok);const bIds=[b1.json.applicant.id,b2.json.applicant.id];ids.users.push(...bIds);
   const bulk=await req('POST','/api/admin/users/bulk-approve',{ids:bIds},adminTok);rec('admin bulk-approves applicants',bulk.status===200,`status=${bulk.status}`);
   const audit=await req('GET','/api/admin/audit-logs',null,adminTok);rec('admin audit logs',audit.status===200&&Array.isArray(audit.json.logs),`status=${audit.status}`);
   const admNotif=await req('GET','/api/admin/notifications',null,adminTok);rec('admin notification inbox',admNotif.status===200,`status=${admNotif.status}`);
   // Create Bob + Carol (additional applicants for the award pipeline: 3 candidates, 2 slots)
   for(const t of ['b','c']){
     const em=emailOf('app'+t);
-    const c=await req('POST','/api/staff/applicants',{first_name:'Applicant',last_name:t==='b'?'Bravo':'Charlie',email:em,password:'TempPass123!'},staffTok);
+    const c=await req('POST','/api/staff/applicants',{first_name:'Applicant',middle_name:'M',last_name:t==='b'?'Bravo':'Charlie',email:em,password:'TempPass123!',student_number:'SN-'+t},staffTok);
     if(c.json&&c.json.applicant){ids.users.push(c.json.applicant.id);await req('POST',`/api/admin/users/${c.json.applicant.id}/approve`,{},adminTok);}
   }
   // --- ORCHESTRATE THE FULL JOURNEY ---
@@ -92,7 +92,7 @@ async function main(){
   const roleBad=await req('POST',`/api/admin/users/${b1.json.applicant.id}/role`,{role:'admin'},adminTok);rec('admin: role change to admin rejected (400)',roleBad.status===400,`status=${roleBad.status}`);
   const rej=await req('POST',`/api/admin/users/${b2.json.applicant.id}/reject`,{remark:'E2E reject for coverage'},adminTok);rec('admin: reject user',rej.status===200,`status=${rej.status}`);
   // -- Staff: reset-applicant-password + delete-pending-applicant on a fresh pending applicant --
-  const delta=await req('POST','/api/staff/applicants',{first_name:'Applicant',last_name:'Delta',email:emailOf('delta'),phone:'09170000333',address:'3 Delta Pl'},staffTok);rec('staff: create pending applicant (delta)',delta.status===201,`status=${delta.status}`);
+  const delta=await req('POST','/api/staff/applicants',{first_name:'Applicant',middle_name:'D',last_name:'Delta',email:emailOf('delta'),phone:'09170000333',address:'3 Delta Pl',student_number:'SN-DELTA'},staffTok);rec('staff: create pending applicant (delta)',delta.status===201,`status=${delta.status}`);
   const deltaId=delta.json.applicant.id;ids.users.push(deltaId);
   const rst=await req('POST',`/api/staff/applicants/${deltaId}/reset-password`,{},staffTok);rec('staff: reset applicant password',rst.status===200&&!!rst.json.tempPassword,`status=${rst.status}`);
   const delApp=await req('DELETE',`/api/staff/applicants/${deltaId}`,{},staffTok);rec('staff: delete pending applicant',delApp.status===200,`status=${delApp.status}`);

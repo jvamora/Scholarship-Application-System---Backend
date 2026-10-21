@@ -38,6 +38,7 @@ const record = (name, ok, detail = '') => {
 const rnd = Math.random().toString(36).slice(2, 8);
 let programId = null;
 let committeeId = null;
+  let adminId = null;
 let applicantUserId = null;
 let studentId = null;
 let appId = null;
@@ -47,7 +48,8 @@ let baseUrl = '';
 const JWT_SECRET = process.env.JWT_SECRET || 'test-secret';
 
 async function signToken(userId, role) {
-  const [rows] = await db.query('SELECT token_version FROM users WHERE id = ?', [userId]);
+  // db.query() returns rows directly — do NOT destructure; see note in main() below.
+  const rows = await db.query('SELECT token_version FROM users WHERE id = ?', [userId]);
   const tv = rows && rows[0] ? Number(rows[0].token_version || 0) : 0;
   return jwt.sign({ id: userId, role, tv }, JWT_SECRET, { expiresIn: '1h' });
 }
@@ -132,6 +134,13 @@ async function main() {
   const committeeToken = await signToken(committeeId, 'committee');
   const applicantToken = await signToken(applicantUserId, 'applicant');
 
+  // approve-awardees is admin-only; borrow an existing admin identity for the role-gated steps.
+  // NOTE: db.query() resolves to the rows array DIRECTLY (not [rows, fields]) — destructuring
+  // the first element would grab row #1 and admins.length would be undefined -> null token -> 401.
+  const admins = await db.query(`SELECT id FROM users WHERE role = 'admin' AND status = 'approved' LIMIT 1`);
+  adminId = admins && admins.length ? admins[0].id : null;
+  const adminToken = adminId ? await signToken(adminId, 'admin') : null;
+
   // ---- start the real server ----
   await new Promise((resolve) => {
     server = app.listen(0, '127.0.0.1', resolve);
@@ -140,7 +149,7 @@ async function main() {
   baseUrl = `http://127.0.0.1:${port}`;
 
   // R1: approve-awardees with no selection run yet -> 409
-  const r1 = await http('POST', `/api/selection/${programId}/approve-awardees`, committeeToken);
+  const r1 = await http('POST', `/api/selection/${programId}/approve-awardees`, adminToken);
   record('R1 approve-awardees: no run yet → 409', r1.status === 409, `status=${r1.status}`);
 
   // setup: run selection (happy path) to produce a ranked run + shortlist
@@ -159,7 +168,7 @@ async function main() {
     `status=${r3.status}, rows=${rows ? rows.length : 'n/a'}`);
 
   // setup: approve awardees so Alice is 'awarded' (single applicant, no tie)
-  const approveRes = await http('POST', `/api/selection/${programId}/approve-awardees`, committeeToken);
+  const approveRes = await http('POST', `/api/selection/${programId}/approve-awardees`, adminToken);
   record('setup approve → 200', approveRes.status === 200, `status=${approveRes.status}`);
 
   // R4: accept-award with WRONG signature -> 400

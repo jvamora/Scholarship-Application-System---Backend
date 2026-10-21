@@ -26,8 +26,15 @@ function generateTempPassword(length = 8) {
 const createApplicant = async (req, res) => {
   try {
     const staffId = req.user.id;
-    let { first_name, middle_name, last_name, phone, email, address, password } = req.body;
-    
+    let { first_name, middle_name, last_name, name_suffix, student_number, phone, email, address, password } = req.body;
+
+    if (!middle_name || !String(middle_name).trim()) {
+      return res.status(400).json({ error: 'Middle name is required.' });
+    }
+    if (!student_number || !String(student_number).trim()) {
+      return res.status(400).json({ error: 'Student ID is required.' });
+    }
+
     let isManual = true;
     if (!password) {
       password = generateTempPassword(8);
@@ -46,6 +53,8 @@ const createApplicant = async (req, res) => {
       first_name,
       middle_name: middle_name || null,
       last_name,
+      name_suffix: name_suffix || null,
+      student_number,
       phone: phone || null,
       address: address || null,
       status: 'pending',
@@ -78,7 +87,11 @@ const updateApplicant = async (req, res) => {
   try {
     const staffId = req.user.id;
     const { id } = req.params;
-    const { first_name, middle_name, last_name, phone, email, address, password } = req.body;
+    const { first_name, middle_name, last_name, name_suffix, student_number, phone, email, address, password } = req.body;
+
+    if (!middle_name || !String(middle_name).trim()) {
+      return res.status(400).json({ error: 'Middle name is required.' });
+    }
 
     const applicant = await User.findById(id);
     if (!applicant) {
@@ -93,7 +106,7 @@ const updateApplicant = async (req, res) => {
       return res.status(400).json({ error: 'Only pending applicant accounts can be edited' });
     }
 
-    await User.update(id, { first_name, middle_name, last_name, phone, email, address, password });
+    await User.update(id, { first_name, middle_name, last_name, name_suffix, student_number, phone, email, address, password });
     const updatedApplicant = await User.findById(id);
     res.json({ applicant: updatedApplicant });
   } catch (error) {

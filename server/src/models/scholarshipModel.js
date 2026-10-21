@@ -139,8 +139,17 @@ class Scholarship {
     `;
 
     const scholarships = await query(sql, [...params, limit, offset]);
+    if (scholarships.length === 0) return [];
+
+    const ids = scholarships.map(s => s.id);
+    const requirements = await query(
+      `SELECT * FROM requirements WHERE scholarship_id IN (${ids.map(() => '?').join(',')})`,
+      ids
+    );
+
     return scholarships.map(s => ({
       ...s,
+      requirements: requirements.filter(r => r.scholarship_id === s.id),
       created_by: s.created_by ? {
         id: s.created_by,
         first_name: s.created_by_first_name,

@@ -85,9 +85,11 @@ router.post(
   '/:scholarshipId/approve-awardees',
   authorize(['admin']),
   wrap(async (req, res) => {
+    const { selectedIds } = req.body || {};
     const result = await selectionService.approveAwardees(
       Number(req.params.scholarshipId),
-      req.user.id
+      req.user.id,
+      selectedIds
     );
     res.json({ success: true, data: result });
   })

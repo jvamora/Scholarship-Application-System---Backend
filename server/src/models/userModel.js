@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 class User {
   static async create(userData) {
-    const { email, password, role, first_name, last_name, middle_name, phone, address, status, remark, createdBy, is_first_login } = userData;
+    const { email, password, role, first_name, last_name, middle_name, name_suffix, student_number, phone, address, status, remark, createdBy, is_first_login } = userData;
     const uuid = uuidv4();
     // Hash password if provided
     const hashedPassword = password
@@ -14,11 +14,12 @@ class User {
     const isFirstLoginVal = is_first_login !== undefined ? is_first_login : (role === 'applicant' ? 1 : 0);
 
     const [result] = await pool.query(
-      'INSERT INTO users (uuid, email, password, role, first_name, middle_name, last_name, phone, address, status, remark, created_by, is_first_login, activated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)',
+      'INSERT INTO users (uuid, email, password, role, first_name, middle_name, last_name, name_suffix, student_number, phone, address, status, remark, created_by, is_first_login, activated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)',
       [
         uuid, email, hashedPassword,
         role || 'applicant',
         first_name, middle_name || null, last_name,
+        name_suffix || null, student_number || null,
         phone || null, address || null,
         status || 'pending', remark || null,
         createdBy || null,
@@ -35,7 +36,7 @@ class User {
 
   static async findById(id) {
     const [rows] = await pool.query(
-      'SELECT id, uuid, email, role, first_name, middle_name, last_name, phone, address, avatar_url, is_active, status, remark, created_by, is_first_login, activated_at FROM users WHERE id = ? AND deleted_at IS NULL',
+      'SELECT id, uuid, email, role, first_name, middle_name, last_name, name_suffix, student_number, phone, address, avatar_url, is_active, status, remark, created_by, is_first_login, activated_at FROM users WHERE id = ? AND deleted_at IS NULL',
       [id]
     );
     return rows[0];
@@ -58,7 +59,7 @@ class User {
   }
 
       static async update(id, fields) {
-    const { first_name, middle_name, last_name, email, phone, address, password } = fields;
+    const { first_name, middle_name, last_name, name_suffix, student_number, email, phone, address, password } = fields;
     // Partial update: only SET the columns the caller actually provided, so a
     // sparse body (e.g. admin profile edit with just first_name/last_name) can't
     // clobber NOT-NULL columns like `email` with NULL. Same behavior as before for
@@ -68,6 +69,8 @@ class User {
     if (first_name !== undefined) { sets.push('first_name = ?'); params.push(first_name); }
     if (last_name !== undefined)  { sets.push('last_name = ?');  params.push(last_name); }
     if (middle_name !== undefined) { sets.push('middle_name = ?'); params.push(middle_name || null); }
+    if (name_suffix !== undefined) { sets.push('name_suffix = ?'); params.push(name_suffix || null); }
+    if (student_number !== undefined) { sets.push('student_number = ?'); params.push(student_number || null); }
     if (email !== undefined)      { sets.push('email = ?');        params.push(email); }
     if (phone !== undefined)      { sets.push('phone = ?');        params.push(phone || null); }
     if (address !== undefined)    { sets.push('address = ?');      params.push(address || null); }
@@ -108,7 +111,7 @@ class User {
 
   static async findByStaff(staffId) {
     const [rows] = await pool.query(
-      'SELECT id, uuid, email, role, first_name, last_name, status, remark, created_by, created_at FROM users WHERE created_by = ? AND deleted_at IS NULL ORDER BY created_at DESC',
+      'SELECT id, uuid, email, role, first_name, middle_name, last_name, name_suffix, student_number, status, remark, created_by, created_at FROM users WHERE created_by = ? AND deleted_at IS NULL ORDER BY created_at DESC',
       [staffId]
     );
     return rows;
@@ -116,14 +119,14 @@ class User {
 
   static async findPending() {
     const [rows] = await pool.query(
-      "SELECT id, uuid, email, role, first_name, last_name, status, remark, created_by, created_at FROM users WHERE status = 'pending' AND deleted_at IS NULL ORDER BY created_at DESC"
+      "SELECT id, uuid, email, role, first_name, middle_name, last_name, name_suffix, student_number, status, remark, created_by, created_at FROM users WHERE status = 'pending' AND deleted_at IS NULL ORDER BY created_at DESC"
     );
     return rows;
   }
 
   static async findAll() {
     const [rows] = await pool.query(
-      'SELECT id, uuid, email, role, first_name, last_name, status, remark, created_by, created_at FROM users WHERE deleted_at IS NULL ORDER BY created_at DESC'
+      'SELECT id, uuid, email, role, first_name, middle_name, last_name, name_suffix, student_number, status, remark, created_by, created_at FROM users WHERE deleted_at IS NULL ORDER BY created_at DESC'
     );
     return rows;
   }
@@ -145,10 +148,12 @@ class User {
 
 
   static async updateProfile(id, fields) {
-    const { first_name, last_name, middle_name, phone, address } = fields;
+    const { first_name, last_name, middle_name, name_suffix, student_number, phone, address } = fields;
     let sql = 'UPDATE users SET first_name = ?, last_name = ?';
     const params = [first_name, last_name];
-    if (middle_name !== undefined) { sql += ', middle_name = ?'; params.push(middle_name || null); }
+    if (middle_name !== undefined)   { sql += ', middle_name = ?';    params.push(middle_name || null); }
+    if (name_suffix !== undefined)   { sql += ', name_suffix = ?';    params.push(name_suffix || null); }
+    if (student_number !== undefined){ sql += ', student_number = ?'; params.push(student_number || null); }
     if (phone       !== undefined) { sql += ', phone = ?';       params.push(phone || null); }
     if (address     !== undefined) { sql += ', address = ?';     params.push(address || null); }
     sql += ' WHERE id = ?';
